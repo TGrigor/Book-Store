@@ -208,6 +208,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\BookStoreDatabase.mdf" />
+    <Content Include="App_Data\BookStoreDatabase_log.ldf">
+      <DependentUpon>BookStoreDatabase.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -269,7 +273,10 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <ProjectReference Include="..\Domein\Domein.csproj">
+      <Project>{72856d45-4705-473e-9fae-db100780ce45}</Project>
+      <Name>Domein</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
