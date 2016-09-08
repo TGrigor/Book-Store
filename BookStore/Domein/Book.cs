@@ -11,7 +11,7 @@ namespace Domein
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Book
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,10 +22,18 @@ namespace Domein
         }
     
         public int BookID { get; set; }
+
+        [Required]
+        [StringLength(60, MinimumLength = 3)]
         public string Title { get; set; }
+
         public int AuthorID { get; set; }
         public int CountryID { get; set; }
+
+        [Range(1, 100)]
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
+
         public string Description { get; set; }
         public Nullable<int> PagesCount { get; set; }
         public byte[] Picture { get; set; }
