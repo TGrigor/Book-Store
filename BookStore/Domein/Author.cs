@@ -11,7 +11,7 @@ namespace Domein
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Author
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,14 +19,14 @@ namespace Domein
         {
             this.Books = new HashSet<Book>();
         }
-    
+
         public int AuthorID { get; set; }
         public string AuthorName { get; set; }
         public string AuthorLastName { get; set; }
         public Nullable<System.DateTime> BirthDay { get; set; }
         public byte[] Picture { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Book> Books { get; set; }
-    }
+    }    
 }

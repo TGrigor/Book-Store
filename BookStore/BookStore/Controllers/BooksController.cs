@@ -40,8 +40,9 @@ namespace BookStore.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "AuthorName");
+            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "AuthorLastName");
             ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName");
+            
             return View();
         }
 
