@@ -38,18 +38,9 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.PagesCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PagesCount)
-        </dd>
-
-       
-        <dt>
-            @Html.DisplayNameFor(model => model.Author.AuthorName)
+            @*@Html.DisplayNameFor(model => model.Author.AuthorName)*@
+            Author Name
         </dt>
 
         <dd>
@@ -57,11 +48,20 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Country.CountryName)
+            @*@Html.DisplayNameFor(model => model.Country.CountryName)*@
+            Country
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Country.CountryName)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.PagesCount)*@
+            Pages Count
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PagesCount)
         </dd>
 
     </dl>
