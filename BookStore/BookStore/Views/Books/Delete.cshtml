@@ -10,15 +10,13 @@
 <div>
     <h4>Book</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Picture)
-        </dt>
-
-        <dd>
+    <dl class="dl-horizontal">        
+        @if (Model.Picture != null)
+        {
+        <dd>          
             <img src="data:image/png;base64,@Convert.ToBase64String(Model.Picture)" , style="width:20%;" />
         </dd>
-
+        }
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>

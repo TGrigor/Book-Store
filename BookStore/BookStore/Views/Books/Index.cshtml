@@ -36,8 +36,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price) $
+        <td>@*harcnel es pahy chishta te che*@
+            @{
+                decimal telcode=item.Country.Tel_Code;
+                telcode += item.Price;
+             }
+            @Html.DisplayFor(Model => telcode) $
         </td>        
         <td>
            @if (User.Identity.IsAuthenticated)
