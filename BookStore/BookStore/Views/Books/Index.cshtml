@@ -3,10 +3,10 @@
 @{
     ViewBag.Title = "Index";
 }
-    <div>
+    @*<div>
             Search: <input type="text" placeholder="Search Books" ng-model="searchText" />
             <br/>
-    </div>
+    </div>*@
 
 <h2>Read all the books</h2>
 
@@ -34,11 +34,11 @@
 
 
 @foreach (var item in Model) {
-    <tr ng-repeat="book in bookk | filter:searchText">
+    <tr @*ng-repeat="book in bookk | filter:searchText"*@ >
         <td>
             @if (item.Picture != null)
             {
-            <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" />
+             <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" />
             }
         </td> 
         <td>
