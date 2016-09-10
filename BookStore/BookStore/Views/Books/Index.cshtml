@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Index";
 }
+    <div>
+            Search: <input type="text" placeholder="Search Books" ng-model="searchText" />
+            <br/>
+    </div>
 
 <h2>Read all the books</h2>
 
@@ -12,6 +16,9 @@
     @Html.ActionLink(" Create New", "Create")
 }
 </p>
+
+
+
 <table class="table">
     <tr>
         <th style="width:30%;">
@@ -25,8 +32,9 @@
         </th>       
     </tr>
 
+
 @foreach (var item in Model) {
-    <tr>
+    <tr ng-repeat="book in bookk | filter:searchText">
         <td>
             @if (item.Picture != null)
             {
@@ -53,5 +61,4 @@
         </td>
     </tr>
 }
-
 </table>

@@ -18,7 +18,7 @@ namespace BookStore.Controllers
         // GET: Books
         public async Task<ActionResult> Index()
         {            
-            var books = db.Books.Include(b => b.Author).Include(b => b.Country);           
+            var books = db.Books.Include(b => b.Author).Include(b => b.Country);
             return View(await books.ToListAsync());
         }
 
