@@ -40,7 +40,7 @@ namespace BookStore.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "AuthorLastName");
+            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName");
             ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName");
             
             return View();
@@ -85,7 +85,7 @@ namespace BookStore.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "AuthorName", book.AuthorID);
+            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName", book.AuthorID);
             ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName", book.CountryID);
             return View(book);
         }
@@ -110,7 +110,7 @@ namespace BookStore.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "AuthorName", book.AuthorID);
+            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName", book.AuthorID);
             ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName", book.CountryID);
             return View(book);
         }

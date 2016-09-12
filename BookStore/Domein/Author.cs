@@ -28,5 +28,17 @@ namespace Domein
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Book> Books { get; set; }
-    }    
+    }
+    public partial class Author
+    {
+        private string fullName;
+        public string FullName
+        {
+            get
+            {
+                fullName = AuthorName +" "+ AuthorLastName;
+                return fullName;
+            }
+        }
+    }
 }

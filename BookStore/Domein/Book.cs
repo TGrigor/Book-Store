@@ -30,7 +30,6 @@ namespace Domein
         public int AuthorID { get; set; }
         public int CountryID { get; set; }
 
-        [Range(1, 1000)]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
