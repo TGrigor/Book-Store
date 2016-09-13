@@ -105,7 +105,15 @@ namespace BookStore.Controllers
                     book.Picture = new byte[image1.ContentLength];
                     image1.InputStream.Read(book.Picture, 0, image1.ContentLength);
 
-                }              
+                }
+                if (image1==null)
+                {
+                    using (BookStoreDatabaseEntities db1 = new BookStoreDatabaseEntities())
+                    {
+                        var img = db1.Books.Find(book.BookID).Picture;
+                        book.Picture = img;
+                    }
+                }           
                 db.Entry(book).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
