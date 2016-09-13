@@ -32,13 +32,13 @@
         </th>       
     </tr>
 
-
+    
 @foreach (var item in Model) {
     <tr @*ng-repeat="book in bookk | filter:searchText"*@ >
         <td>
             @if (item.Picture != null)
             {
-             <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" />
+             <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" class="img-thumbnail"/>
             }
         </td> 
         <td>

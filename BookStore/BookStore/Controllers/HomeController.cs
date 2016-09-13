@@ -9,19 +9,33 @@ namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
-        //private BookStoreDatabaseEntities db = new BookStoreDatabaseEntities();
+       // private BookStoreDatabaseEntities db = new BookStoreDatabaseEntities();
 
-        public ActionResult Index(string searchBy, string search)
+        public ActionResult Index()
         {
-            //    if (searchBy=="BookName")
-            //    {
-            //         return View(db.Books.Where(x => x.Title ==search || search == null).ToList());
-            //    }
-            //    else 
-            //         return View(db.Authors.Where(x => x.AuthorName ==search).ToList());
-            return View();
+            return View();          
+        }       
+        public JsonResult getAll()
+        {
+            using (BookStoreDatabaseEntities dataContext = new BookStoreDatabaseEntities())
+            {
+                var bookList = (from E in dataContext.Books
+                                    join dep in dataContext.Authors on E.AuthorID equals dep.AuthorID
+                                    join dsg in dataContext.Countries on E.CountryID equals dsg.CountryID
+                                    orderby E.BookID
+                                    select new
+                                    {
+                                        E.Country.Tel_Code,
+                                        E.BookID,
+                                        E.Title,
+                                        E.Price,    
+                                        E.Picture
+                                    }).ToList();
+                var JsonResult = Json(bookList, JsonRequestBehavior.AllowGet);
+                JsonResult.MaxJsonLength = int.MaxValue;
+                return JsonResult;
+            }
         }
-
 
     }
 }

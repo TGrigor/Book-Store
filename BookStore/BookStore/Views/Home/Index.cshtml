@@ -1,11 +1,81 @@
-﻿@{
+﻿@model IEnumerable<Domein.Book>
+
+@{
     ViewBag.Title = "Home Page";
 }
+<script src="~/Scripts/angular.min.js"></script>
 
-<div class="jumbotron">
-
+<div ng-app="myApp" ng-controller="myCntrl">
+    </br>
+    <table>
+        <tr>
+            <td>Search
+                <input type="text" ng-model="search[searchBy]" />
+            </td>
+            <td>            
+        </tr>
+    </table>
+    </br>
+    <table class="table">
+        <tr>     
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+        </tr>                
+            <tr ng-repeat="b in BooksList | filter:search" @*ng-repeat="book in bookk | filter:searchText"*@>
+                <td>
+                    {{b.Title}}
+                </td>
+                <td>
+                    @*harcnel es pahy chishta te che*@
+                    {{b.Price + b.Tel_Code}}                   
+                </td>
+                <td>
+                    @*@if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Edit |", "Edit", new { id = item.BookID })
+                        @Html.ActionLink(" Delete |", "Delete", new { id = item.BookID })
+                    }
+                    @Html.ActionLink(" Details", "Details", new { id = item.BookID })*@
+                </td>
+        </tr>                    
+    </table>
 </div>
 
-<div class="row">
-    
-</div>
+ <script>
+        var app = angular.module("myApp", []);
+
+        app.controller("myCntrl", function ($scope, myService) {
+
+        GetAllEmployees();
+        $scope.search = {};
+        $scope.searchBy = 'Title';
+        //For sorting according to columns
+        $scope.sort = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverse = !$scope.reverse;
+        }
+
+        //To Get All Records  
+        function GetAllEmployees() {
+            var getData = myService.getEmployees();
+
+                getData.then(function (emp) {
+                $scope.BooksList = emp.data;
+            }, function (emp) {
+                alert("Records gathering failed!");
+            });
+        }
+    });
+
+    app.service("myService", function ($http) {
+
+        //get All Employee
+        this.getEmployees = function () {
+            return $http.get("/Home/getAll");
+        };
+    });
+</script>
