@@ -6,6 +6,14 @@
 
 <h2>Read all the books</h2>
 <br />
+@using (Html.BeginForm("Index", "Books", FormMethod.Get))
+{
+    <p>
+        Search: @Html.TextBox("SearchString")
+        <span  class="glyphicon glyphicon-search" aria-hidden="true"> <input type="submit" hidden  /></span>
+    </p>
+}
+ 
 <hr />
 <p>
 @if (User.Identity.IsAuthenticated)
@@ -72,12 +80,17 @@ else
         {
             <div>
                 <a href="@Url.Action("Details","Books", new { id = item.BookID })" class="port">
-                   
+                        @{
+                        decimal telcode = item.Country.Tel_Code;
+                        telcode += item.Price;
+                        }
+                        
                         @if (item.Picture != null)
                         {
                             <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:50%;" class="img-thumbnail" />
                         }
-                        <p>  @Html.DisplayFor(modelItem => item.Title)</p>                    
+                        <p style="color:burlywood;">  @Html.DisplayFor(modelItem => item.Title)</p>
+                        <span style="color:lawngreen;"> @Html.DisplayFor(Model => telcode) $ </span>                   
                 </a>
             </div>
         }

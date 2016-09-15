@@ -42,7 +42,7 @@ textarea {
     float: left;
     margin: 2px;
     text-align: center;
-    font-size: 13px;
+    font-size: 150%;
     padding-top: 5px;
     border: 1px solid #222;
     color: #bbb;
@@ -50,5 +50,9 @@ textarea {
 
 .myCass-ForBookDiv div:hover{
  border:solid 2px red;
- font-size:110%;
+ font-size:160%;
+}
+
+.nav-bar {
+    color:red;
 }

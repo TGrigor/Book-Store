@@ -16,10 +16,22 @@ namespace BookStore.Controllers
         private BookStoreDatabaseEntities db = new BookStoreDatabaseEntities();
 
         // GET: Books
-        public async Task<ActionResult> Index()
-        {            
+        public async Task<ActionResult> Index(string searchString)
+        {
+            
             var books = db.Books.Include(b => b.Author).Include(b => b.Country);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(s => s.Title.Contains(searchString));
+            }
             return View(await books.ToListAsync());
+        }
+
+        [HttpPost]
+        public string Index(FormCollection fc, string searchString)
+        {
+            return "<h3> From [HttpPost]Index: " + searchString + "</h3>";
         }
 
         // GET: Books/Details/5
