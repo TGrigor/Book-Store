@@ -2,18 +2,18 @@
 
 @{
     ViewBag.Title = "Index";
-}
-    @*<div>
-            Search: <input type="text" placeholder="Search Books" ng-model="searchText" />
-            <br/>
-    </div>*@
+}  
 
 <h2>Read all the books</h2>
-
+<br />
+<hr />
 <p>
 @if (User.Identity.IsAuthenticated)
 {
-    @Html.ActionLink(" Create New", "Create")
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        @Html.ActionLink(" Create New", "Create")
+    </button>
 }
 </p>
 
@@ -35,7 +35,7 @@
     
 @foreach (var item in Model)
 {
-    <tr @*ng-repeat="book in bookk | filter:searchText"*@ >
+    <tr>
         <td>
             @if (item.Picture != null)
             {
@@ -45,7 +45,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
-        <td>@*harcnel es pahy chishta te che*@
+        <td>
             @{
                 decimal telcode = item.Country.Tel_Code;
                 telcode += item.Price;
@@ -81,7 +81,10 @@ else
                 </a>
             </div>
         }
+       
     </div>
+   
+
 }
 }
 

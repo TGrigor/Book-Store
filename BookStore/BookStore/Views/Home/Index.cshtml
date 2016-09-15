@@ -17,14 +17,11 @@
         </tr>
     </table>
 
-    </br>
+    <br/>
 
     <table class="table">
 
-        <tr>   
-            <th>
-                @Html.DisplayNameFor(model => model.Picture)
-            </th>  
+        <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -33,13 +30,14 @@
             </th>
         </tr>  
      
-        
+        @foreach(var item in Model)
+        {            
         <tr ng-repeat="b in BooksList | filter:search" @*ng-repeat="book in bookk | filter:searchText"*@>      
          <td>
-            @*@if (item.Picture != null)
+            @if (item.Picture != null)
             {
                 <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:20%;" class="img-thumbnail" />
-            }*@
+            }
          </td>
             <td>
                 {{b.Title}}
@@ -50,17 +48,18 @@
             </td>
         
             <td>
-                @*@if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated)
                 {
                     @Html.ActionLink("Edit |", "Edit", new { id = item.BookID })
                     @Html.ActionLink(" Delete |", "Delete", new { id = item.BookID })
                 }
-                @Html.ActionLink(" Details", "Details", new { id = item.BookID })*@
+                @Html.ActionLink(" Details", "Details", new { id = item.BookID })
             </td>           
          </tr>
+        }
     </table>
 </div>
-
+           
 
  <script>
         var app = angular.module("myApp", []);
