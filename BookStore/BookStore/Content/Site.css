@@ -22,3 +22,27 @@ select,
 textarea {
     max-width: 280px;
 }
+.myCass-ForBookDiv{
+      display: block;
+  }
+
+.myCass-ForBookDiv div{
+    position: relative;
+    background-color: #222;
+    display: block;
+    width: 350px;
+    height: 350px;
+    float: left;
+    margin: 2px;
+    text-align: center;
+    font-size: 13px;
+    padding-top: 5px;
+    border: 1px solid #222;
+    color: #bbb;
+}
+
+.myCass-ForBookDiv div:hover{
+ border:solid 2px red;
+ font-size:110%;
+}
+

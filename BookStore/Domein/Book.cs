@@ -44,5 +44,6 @@ namespace Domein
         public virtual ICollection<Ganre> Ganres { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public object Convert { get; set; }
     }    
 }

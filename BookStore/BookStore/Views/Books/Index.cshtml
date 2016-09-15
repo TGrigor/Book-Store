@@ -18,11 +18,11 @@
 </p>
 
 
-
+@{if (User.Identity.IsAuthenticated)
+    {
 <table class="table">
     <tr>
         <th style="width:30%;">
-            @Html.DisplayNameFor(model => model.Picture)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
@@ -33,7 +33,8 @@
     </tr>
 
     
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr @*ng-repeat="book in bookk | filter:searchText"*@ >
         <td>
             @if (item.Picture != null)
@@ -46,7 +47,7 @@
         </td>
         <td>@*harcnel es pahy chishta te che*@
             @{
-                decimal telcode=item.Country.Tel_Code;
+                decimal telcode = item.Country.Tel_Code;
                 telcode += item.Price;
              }
             @Html.DisplayFor(Model => telcode) $
@@ -60,5 +61,27 @@
             @Html.ActionLink(" Details", "Details", new { id = item.BookID })           
         </td>
     </tr>
-}
+                }
 </table>
+                }
+else
+{
+
+    <div class="myCass-ForBookDiv">
+        @foreach (var item in Model)
+        {
+            <div>
+                <a href="@Url.Action("Details","Books", new { id = item.BookID })" class="port">
+                   
+                        @if (item.Picture != null)
+                        {
+                            <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:50%;" class="img-thumbnail" />
+                        }
+                        <p>  @Html.DisplayFor(modelItem => item.Title)</p>                    
+                </a>
+            </div>
+        }
+    </div>
+}
+}
+
