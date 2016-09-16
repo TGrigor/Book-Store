@@ -7,7 +7,6 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Book</h4>
     <hr />
     <dl class="dl-horizontal">                
         <dd>
@@ -16,12 +15,15 @@
             <img src="data:image/png;base64,@Convert.ToBase64String(Model.Picture)" , style="width:20%;" />
         }
         </dd>
+        <br />
         <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
+
         <dd>
             @Html.DisplayFor(model => model.Title)
         </dd>
+        <br />
         <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>
@@ -29,23 +31,18 @@
         <dd>
             @Html.DisplayFor(model => model.Price)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+        <br />
         <dt>
             @*@Html.DisplayNameFor(model => model.Author.AuthorName)*@
             Author Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.AuthorName)
+            @Html.DisplayFor(model => model.Author.FullName)
+            @Html.ActionLink("Details", "Details", new { id = Model.AuthorID }) |
+            @*Nenc anel vor link y ta Author cntrolleri vra*@
         </dd>
-
+        <br />
         <dt>
             @*@Html.DisplayNameFor(model => model.Country.CountryName)*@
             Country
@@ -54,6 +51,7 @@
         <dd>
             @Html.DisplayFor(model => model.Country.CountryName)
         </dd>
+        <br />
         <dt>
             @*@Html.DisplayNameFor(model => model.PagesCount)*@
             Pages Count
@@ -61,6 +59,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.PagesCount)
+        </dd>
+        <br/>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
         </dd>
 
     </dl>

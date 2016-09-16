@@ -197,6 +197,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1079,6 +1080,11 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Authors\Create.cshtml" />
+    <Content Include="Views\Authors\Delete.cshtml" />
+    <Content Include="Views\Authors\Details.cshtml" />
+    <Content Include="Views\Authors\Edit.cshtml" />
+    <Content Include="Views\Authors\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domein\Domein.csproj">

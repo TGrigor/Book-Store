@@ -1460,9 +1460,13 @@ dd {
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size:160%;
+
   }
   .dl-horizontal dd {
     margin-left: 180px;
+    font-size:160%;
+
   }
 }
 abbr[title],

@@ -48,6 +48,7 @@ namespace BookStore.Controllers
             }
             return View(book);
         }
+
         [Authorize]
         // GET: Books/Create
         public ActionResult Create()
@@ -124,6 +125,8 @@ namespace BookStore.Controllers
                     {
                         var img = db1.Books.Find(book.BookID).Picture;
                         book.Picture = img;
+                        ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName", book.AuthorID);
+
                     }
                 }           
                 db.Entry(book).State = EntityState.Modified;

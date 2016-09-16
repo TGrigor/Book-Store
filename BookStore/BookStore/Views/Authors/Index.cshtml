@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Domein.Author>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Authors</h2>
+<hr>
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        @Html.ActionLink(" Create New", "Create")
+    </button>
+    }
+</p>
+    
+<table class="table">
+    <tr>
+        <th style="width:20%;">
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AuthorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AuthorLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthDay)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.Picture != null)
+            {
+                <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" class="img-thumbnail" />
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthorLastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthDay)
+        </td>        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AuthorID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AuthorID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AuthorID })
+        </td>
+    </tr>
+}
+
+</table>
