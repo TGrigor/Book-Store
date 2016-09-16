@@ -38,8 +38,65 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.FullName)
-            @Html.ActionLink("Details", "Details", new { id = Model.AuthorID }) |
+            <p style="float: left;">@Html.DisplayFor(model => model.Author.FullName)</p>
+            <div class="container" style="display: block;width: 100px; margin: 0; display: inline-block;">
+                <!-- Trigger the modal with a button -->
+                <button type="button" style="background-color:rgb(26, 26, 26);"  data-toggle="modal" data-target="#myModal">
+                    Details 
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog" style="background: rgba(0, 0, 0, 0.901961);">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="container body-content" style="width: 661px; background-color: rgb(18, 19, 19);">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Author</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div>                                    
+                                    <dl class="dl-horizontal" style="font-size:10px;">
+                                        <dd>
+                                            @if (Model.Picture != null)
+                                            {
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Author.Picture)" , style="width:40%;" />
+                                            }
+                                        </dd>                                       
+                                        <dt>
+                                            Name
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Author.AuthorName)
+                                        </dd>
+                                        
+                                        <dt>
+                                            Last Name
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Author.AuthorLastName)
+                                        </dd>
+                                        </br>
+                                        <dt>
+                                            @Html.DisplayNameFor(model => model.Author.BirthDay)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => model.Author.BirthDay)
+                                        </dd>
+                                    </dl>
+                                    </br></br>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
             @*Nenc anel vor link y ta Author cntrolleri vra*@
         </dd>
         <br />

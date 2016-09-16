@@ -59,7 +59,7 @@ namespace BookStore.Controllers
                 }
                 db.Authors.Add(author);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create","Books");
             }
 
             return View(author);
