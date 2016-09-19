@@ -29,34 +29,27 @@
                 @Html.DisplayNameFor(model => model.Price)
             </th>
         </tr>  
-     
-        @foreach(var item in Model)
-        {            
-        <tr ng-repeat="b in BooksList | filter:search" @*ng-repeat="book in bookk | filter:searchText"*@>      
-         <td>
-            @*@if (item.Picture != null)
-            {
-                <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:20%;" class="img-thumbnail" />
-            }*@
-         </td>
+        
+        <tr ng-repeat="b in BooksList | filter:search">
+            <td>
+                <img src="~/Picture/{{b.Picture}}" style="width:30%;" class="img-thumbnail" />
+            </td>
             <td>
                 {{b.Title}}
             </td>
-            <td style="color:lawngreen;">
-                @*harcnel es pahy chishta te che*@
+            <td style="color:lawngreen;">               
                 {{b.Price + b.Tel_Code}} $
             </td>
         
             <td>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @Html.ActionLink("Edit |", "Edit", new { id = item.BookID })
-                    @Html.ActionLink(" Delete |", "Delete", new { id = item.BookID })
+                    <a data-ng-href="@Url.Action("Edit", "Books")/{{b.BookID}}" >Edit  </a>
+                    <a data-ng-href="@Url.Action("Delete", "Books")/{{b.BookID}}">Delete  </a>
                 }
-                @Html.ActionLink(" Details", "Details", new { id = item.BookID })
+                <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}">Details  </a>                
             </td>           
-         </tr>
-        }
+         </tr>        
     </table>
 </div>
            

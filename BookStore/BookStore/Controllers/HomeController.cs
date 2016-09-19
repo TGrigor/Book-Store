@@ -32,6 +32,8 @@ namespace BookStore.Controllers
                                         E.Country.Tel_Code,                                        
                                         E.Title,
                                         E.Price,
+                                        E.BookID,
+                                        E.Picture,
                                     }).ToList();
                 var JsonResult = Json(bookList, JsonRequestBehavior.AllowGet);
                 JsonResult.MaxJsonLength = int.MaxValue;

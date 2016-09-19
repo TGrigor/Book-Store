@@ -20,7 +20,7 @@ namespace Domein
             this.Ganres = new HashSet<Ganre>();
             this.AspNetUsers = new HashSet<AspNetUser>();
         }
-
+    
         public int BookID { get; set; }
 
         [Required]
@@ -35,8 +35,8 @@ namespace Domein
 
         public string Description { get; set; }
         public Nullable<int> PagesCount { get; set; }
-        public byte[] Picture { get; set; }
-
+        public string Picture { get; set; }
+    
         public virtual Author Author { get; set; }
         public virtual Country Country { get; set; }
         public virtual ExtraAttribute ExtraAttribute { get; set; }
@@ -44,6 +44,5 @@ namespace Domein
         public virtual ICollection<Ganre> Ganres { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
-        public object Convert { get; set; }
-    }    
+    }
 }

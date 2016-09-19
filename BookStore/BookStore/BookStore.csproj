@@ -1100,6 +1100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\img\" />
+    <Folder Include="Picture\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

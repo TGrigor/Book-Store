@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -74,7 +74,7 @@
           <Property Name="AuthorName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="AuthorLastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="BirthDay" Type="date" />
-          <Property Name="Picture" Type="image" />
+          <Property Name="Picture" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Book">
           <Key>
@@ -87,7 +87,7 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="1" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="PagesCount" Type="int" />
-          <Property Name="Picture" Type="image" />
+          <Property Name="Picture" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="BookAddAttributes">
           <Key>
@@ -359,8 +359,7 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             <End Role="UserBook" EntitySet="UserBook" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -446,7 +445,7 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
           <Property Name="Price" Type="Decimal" Precision="18" Scale="1" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PagesCount" Type="Int32" />
-          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Picture" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Author" Relationship="Self.FK_Book_Author" FromRole="Book" ToRole="Author" />
           <NavigationProperty Name="Country" Relationship="Self.FK_Book_Country" FromRole="Book" ToRole="Country" />
           <NavigationProperty Name="ExtraAttribute" Relationship="Self.BookAddAttributes" FromRole="Book" ToRole="ExtraAttributes" />

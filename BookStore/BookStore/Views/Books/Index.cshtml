@@ -47,7 +47,8 @@
         <td>
             @if (item.Picture != null)
             {
-             <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" class="img-thumbnail"/>
+             @*<img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" class="img-thumbnail"/>*@
+                <img src="~/Picture/@item.Picture" style="width:30%;" class="img-thumbnail" />
             }
         </td> 
         <td>
@@ -87,7 +88,9 @@ else
                         
                         @if (item.Picture != null)
                         {
-                            <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:50%;" class="img-thumbnail" />
+                            @*<img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:50%;" class="img-thumbnail" />*@
+                            <img src="~/Picture/@item.Picture" style="width:50%;" class="img-thumbnail" />
+
                         }
                         <p style="color:burlywood;">  @Html.DisplayFor(modelItem => item.Title)</p>
                         <span style="color:lawngreen;"> @Html.DisplayFor(Model => telcode) $ </span>                   

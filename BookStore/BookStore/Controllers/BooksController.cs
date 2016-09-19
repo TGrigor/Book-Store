@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Domein;
+using System.IO;
 
 namespace BookStore.Controllers
 {
@@ -67,18 +68,21 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "BookID,Title,AuthorID,CountryID,Price,Description,PagesCount,Picture")] Book book , HttpPostedFileBase image1)
         {
-            
-            if (ModelState.IsValid)
+            //nayel{
+            if (image1.ContentLength > 0)
             {
-                if (image1!=null)
-                {
-                    book.Picture = new byte[image1.ContentLength];
-                    image1.InputStream.Read(book.Picture, 0, image1.ContentLength);
-                }             
+                FileInfo file = new FileInfo(image1.FileName);
+                var fileName = Path.GetFileName(image1.FileName);
+                string GuIdName = Guid.NewGuid().ToString() + file.Extension;// stugel vor miayn picture tipi filer pahi
+
+                var path = Path.Combine(Server.MapPath("~/Picture/"), GuIdName);
+                book.Picture = GuIdName;
                 db.Books.Add(book);
                 await db.SaveChangesAsync();
+                image1.SaveAs(path);
                 return RedirectToAction("Index");
             }
+            /////}
 
             ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "AuthorName", book.AuthorID);
             ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName", book.CountryID);
@@ -115,20 +119,36 @@ namespace BookStore.Controllers
             {
                 if (image1!=null)
                 {
-                    book.Picture = new byte[image1.ContentLength];
-                    image1.InputStream.Read(book.Picture, 0, image1.ContentLength);
-
+                    FileInfo file = new FileInfo(image1.FileName);
+                    var fileName = Path.GetFileName(image1.FileName);
+                    string GuIdName = Guid.NewGuid().ToString() + file.Extension;
+                    var path = Path.Combine(Server.MapPath("~/Picture/"), GuIdName);
+                    book.Picture = GuIdName;
+                    image1.SaveAs(path); 
                 }
-                if (image1==null)
+                else
                 {
                     using (BookStoreDatabaseEntities db1 = new BookStoreDatabaseEntities())
                     {
-                        var img = db1.Books.Find(book.BookID).Picture;
-                        book.Picture = img;
-                        ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName", book.AuthorID);
-
+                           var img = db1.Books.Find(book.BookID).Picture;
+                           book.Picture = img;
                     }
-                }           
+
+                }
+                //if (image1!=null)
+                //{
+                //    book.Picture = new byte[image1.ContentLength];
+                //    image1.InputStream.Read(book.Picture, 0, image1.ContentLength);
+
+                //}
+                //if (image1==null)
+                //{
+                //    using (BookStoreDatabaseEntities db1 = new BookStoreDatabaseEntities())
+                //    {
+                //        var img = db1.Books.Find(book.BookID).Picture;
+                //        book.Picture = img;
+                //    }
+                //}           
                 db.Entry(book).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

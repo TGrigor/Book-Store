@@ -12,7 +12,8 @@
         <dd>
         @if (Model.Picture != null)
         {
-            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Picture)" , style="width:20%;" />
+            @*<img src="data:image/png;base64,@Convert.ToBase64String(Model.Picture)" , style="width:20%;" />*@
+            <img src="~/Picture/@Model.Picture" style="width:40%;" />
         }
         </dd>
         <br />
@@ -61,7 +62,8 @@
                                         <dd>
                                             @if (Model.Picture != null)
                                             {
-                                                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Author.Picture)" , style="width:40%;" />
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Author.Picture)" , style="width:40%;" />//Author                                               
+
                                             }
                                         </dd>                                       
                                         <dt>
