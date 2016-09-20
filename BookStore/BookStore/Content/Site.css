@@ -77,3 +77,17 @@ textarea {
        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
+.srch:hover {
+    border: 2px solid #404259;
+}
+.srch{
+    outline: none;
+    background-color: #111;
+    color: #fff;
+    border: 2px solid #313043;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    padding-left: 7px;
+}
