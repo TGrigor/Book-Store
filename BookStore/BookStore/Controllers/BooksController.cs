@@ -17,23 +17,34 @@ namespace BookStore.Controllers
         private BookStoreDatabaseEntities db = new BookStoreDatabaseEntities();
 
         // GET: Books
-        public async Task<ActionResult> Index(string searchString)
-        {
-            
+        public async Task<ActionResult> Index()
+        {            
             var books = db.Books.Include(b => b.Author).Include(b => b.Country);
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                books = books.Where(s => s.Title.Contains(searchString));
-            }
             return View(await books.ToListAsync());
         }
 
-        [HttpPost]
-        public string Index(FormCollection fc, string searchString)
+        public JsonResult getAll()
         {
-            return "<h3> From [HttpPost]Index: " + searchString + "</h3>";
+            using (BookStoreDatabaseEntities dataContext = new BookStoreDatabaseEntities())
+            {
+                var bookList = (from E in dataContext.Books
+                                join dep in dataContext.Authors on E.AuthorID equals dep.AuthorID
+                                join dsg in dataContext.Countries on E.CountryID equals dsg.CountryID
+                                orderby E.BookID
+                                select new
+                                {
+                                    E.Country.Tel_Code,
+                                    E.Title,
+                                    E.Price,
+                                    E.BookID,
+                                    E.Picture,
+                                }).ToList();
+                var JsonResult = Json(bookList, JsonRequestBehavior.AllowGet);
+                JsonResult.MaxJsonLength = int.MaxValue;
+                return JsonResult;
+            }
         }
+
 
         // GET: Books/Details/5
         public async Task<ActionResult> Details(int? id)

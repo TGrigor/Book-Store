@@ -3,104 +3,116 @@
 @{
     ViewBag.Title = "Index";
 }  
+<script src="~/Scripts/angular.min.js"></script>
+
 
 <h2>Read all the books</h2>
-<br />
-@using (Html.BeginForm("Index", "Books", FormMethod.Get))
-{
+<br/>
+<div ng-app="AngularBookApp" ng-controller="AngularBookCntrl">
+    <table>
+        <tr>
+            <td>
+                Search
+                <input type="text" ng-model="search[searchBy]" />
+            </td>
+            @*<td>
+                <select ng-model="searchBy">
+                     <option value="$"></option>
+                     <option value="Title"> Title </option>
+                     <option value="Price"> Price </option>
+                </select>
+            </td>*@           
+        </tr>
+        
+    </table>
+    <hr/>
     <p>
-        Search: @Html.TextBox("SearchString")
-        <span  class="glyphicon glyphicon-search" aria-hidden="true"> <input type="submit" hidden  /></span>
-    </p>
-}
- 
-<hr />
-<p>
-@if (User.Identity.IsAuthenticated)
-{
-    <button type="button" class="btn btn-default" aria-label="Left Align">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        @Html.ActionLink(" Create New", "Create")
-    </button>
-}
-</p>
-
-
-@{if (User.Identity.IsAuthenticated)
-    {
-<table class="table">
-    <tr>
-        <th style="width:30%;">
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>       
-    </tr>
-
-    
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @if (item.Picture != null)
-            {
-             @*<img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:30%;" class="img-thumbnail"/>*@
-                <img src="~/Picture/@item.Picture" style="width:30%;" class="img-thumbnail" />
-            }
-        </td> 
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @{
-                decimal telcode = item.Country.Tel_Code;
-                telcode += item.Price;
-             }
-            @Html.DisplayFor(Model => telcode) $
-        </td>        
-        <td>
-           @if (User.Identity.IsAuthenticated)
-           {
-            @Html.ActionLink("Edit |", "Edit", new { id = item.BookID })
-            @Html.ActionLink(" Delete |", "Delete", new { id = item.BookID })
-           }
-            @Html.ActionLink(" Details", "Details", new { id = item.BookID })           
-        </td>
-    </tr>
-                }
-</table>
-                }
-else
-{
-
-    <div class="myCass-ForBookDiv">
-        @foreach (var item in Model)
+        @if (User.Identity.IsAuthenticated)
         {
-            <div>
-                <a href="@Url.Action("Details","Books", new { id = item.BookID })" class="port">
-                        @{
-                        decimal telcode = item.Country.Tel_Code;
-                        telcode += item.Price;
-                        }
-                        
-                        @if (item.Picture != null)
-                        {
-                            @*<img src="data:image/png;base64,@Convert.ToBase64String(item.Picture)" , style="width:50%;" class="img-thumbnail" />*@
-                            <img src="~/Picture/@item.Picture" style="width:50%;" class="img-thumbnail" />
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                @Html.ActionLink(" Create New", "Create")
+            </button>
+        }
+    </p>
 
+
+    @{if (User.Identity.IsAuthenticated)
+        {
+            <table class="table">
+                <tr>
+                    <th style="width:30%;">
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                </tr>               
+                <tr ng-repeat="b in BooksList | filter:search">
+                    <td>                       
+                        <img src="~/Picture/{{b.Picture}}" style="width:30%;" class="img-thumbnail" />                       
+                    </td>
+                    <td>
+                       {{b.Title}}
+                    </td>
+                    <td>
+                        {{b.Price + b.Tel_Code}} $                        
+                    </td>
+                    <td>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a data-ng-href="@Url.Action("Edit", "Books")/{{b.BookID}}">Edit  </a>
+                            <a data-ng-href="@Url.Action("Delete", "Books")/{{b.BookID}}">Delete  </a>
                         }
-                        <p style="color:burlywood;">  @Html.DisplayFor(modelItem => item.Title)</p>
-                        <span style="color:lawngreen;"> @Html.DisplayFor(Model => telcode) $ </span>                   
-                </a>
+                        <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}">Details  </a>                                                
+                    </td>
+                </tr>                
+            </table>
+        }
+        else
+        {
+            <div class="myCass-ForBookDiv" ng-repeat="b in BooksList | filter:search">
+                <div>
+                    <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}" class="port">          
+                        <img src="~/Picture/{{b.Picture}}" style="width:50%;" class="img-thumbnail" />
+                        <p style="color:burlywood;">  {{b.Title}}   </p>
+                        <span style="color:lawngreen;">{{b.Price + b.Tel_Code}} $ </span>
+                    </a>
+                </div>
             </div>
         }
+}
+</div>
+
+<script>
+        var app = angular.module("AngularBookApp", []);
+
+        app.controller("AngularBookCntrl", function ($scope, AngularBookService) {
+
+        GetAllBooks();
+        $scope.search = {};
+        $scope.searchBy = 'Title';
        
-    </div>
-   
+        $scope.sort = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverse = !$scope.reverse;
+        }
 
-}
-}
+        function GetAllBooks() {
+            var getData = AngularBookService.getBooks();
 
+                getData.then(function (emp) {
+                $scope.BooksList = emp.data;
+            });
+        }
+    });
+
+    app.service("AngularBookService", function ($http) {
+
+        this.getBooks = function () {
+            return $http.get("/Books/getAll");
+        };
+    });
+</script>
