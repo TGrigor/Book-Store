@@ -4,17 +4,20 @@
     ViewBag.Title = "Index";
 }  
 <script src="~/Scripts/angular.min.js"></script>
-
+<script src="~/Scripts/ng-infinite-scroll.min.js"></script>
+<script src="~/Scripts/jquery-3.1.0.min.js"></script>
 
 <h2>Read all the books</h2>
 <br/>
 <div ng-app="AngularBookApp" ng-controller="AngularBookCntrl">
     <table>
         <tr>
+            
             <td>
-                Search
-                <input type="text" ng-model="search[searchBy]"  class="srch" value="Book Name..." />
+                <span class="glyphicon glyphicon-search" aria-hidden="true" > Search</span>
+                <input type="text" ng-model="search[searchBy]"  class="srch" value="Book Name..."  autofocus/>
             </td>
+            
             @*<td>
                 <select ng-model="searchBy">
                      <option value="$"></option>
@@ -49,37 +52,42 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Price)
                     </th>
-                </tr>               
-                <tr ng-repeat="b in BooksList | filter:search">
-                    <td>                       
-                        <img src="~/Picture/{{b.Picture}}" style="width:30%;" class="img-thumbnail" />                       
-                    </td>
-                    <td>
-                       {{b.Title}}
-                    </td>
-                    <td>
-                        {{b.Price + b.Tel_Code}} $                        
-                    </td>
-                    <td>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a data-ng-href="@Url.Action("Edit", "Books")/{{b.BookID}}">Edit  </a>
-                            <a data-ng-href="@Url.Action("Delete", "Books")/{{b.BookID}}">Delete  </a>
-                        }
-                        <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}">Details  </a>                                                
-                    </td>
-                </tr>                
-            </table>
+                </tr> 
+                
+                    <tr ng-repeat="b in BooksList | filter:search" >
+                        <td>
+                            <img src="~/Picture/{{b.Picture}}" style="width:30%;" class="img-thumbnail" />
+                        </td>
+                        <td>
+                            {{b.Title}}
+                        </td>
+                        <td>
+                            {{b.Price + b.Tel_Code}} $
+                        </td>
+                        <td>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a data-ng-href="@Url.Action("Edit", "Books")/{{b.BookID}}">Edit  </a>
+                                <a data-ng-href="@Url.Action("Delete", "Books")/{{b.BookID}}">Delete  </a>
+                            }
+                            <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}">Details  </a>
+                        </td>
+                    </tr>
+                
+</table>
         }
         else
         {
-            <div class="myCass-ForBookDiv" ng-repeat="b in BooksList | filter:search">
-                <div>
-                    <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}" class="port">          
+            <div class="myCass-ForBookDiv" ng-repeat="b in BooksList | filter:search" >
+
+                <div infinite-scroll="loadMore()" infinite-scroll-distance="2" infinite-scroll-disabled="true">
+
+                    <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}" class="port">
                         <img src="~/Picture/{{b.Picture}}" style="width:50%;" class="img-thumbnail" />
                         <p style="color:burlywood;">  {{b.Title}}   </p>
                         <span style="color:lawngreen;">{{b.Price + b.Tel_Code}} $ </span>
                     </a>
+
                 </div>
             </div>
         }
@@ -87,7 +95,7 @@
 </div>
 
 <script>
-        var app = angular.module("AngularBookApp", []);
+    var app = angular.module("AngularBookApp", ['infinite-scroll']);
 
         app.controller("AngularBookCntrl", function ($scope, AngularBookService) {
 
@@ -107,7 +115,18 @@
                 $scope.BooksList = emp.data;
             });
         }
-    });
+        });
+
+        //app.controller('DemoController', function ($scope) {
+        //    $scope.images = [1, 2, 3, 4, 5, 6, 7, 8];
+
+        //    $scope.loadMore = function () {
+        //        var last = $scope.images[$scope.images.length - 1];
+        //        for (var i = 1; i <= 8; i++) {
+        //            $scope.images.push(last + i);
+        //        }
+        //    };
+    //});
 
     app.service("AngularBookService", function ($http) {
 
