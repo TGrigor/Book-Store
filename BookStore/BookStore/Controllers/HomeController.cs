@@ -11,12 +11,10 @@ namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
-         private BookStoreDatabaseEntities db = new BookStoreDatabaseEntities();
-
+         
         public async Task<ActionResult> Index()
-        {
-            var books = db.Books.Include(b => b.Author).Include(b => b.Country);
-            return View(await books.ToListAsync());
+        {            
+            return View();
         }
     }
 }

@@ -211,13 +211,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="404.html" />
     <Content Include="App_Data\BookStoreDatabase.mdf" />
     <Content Include="App_Data\BookStoreDatabase_log.ldf">
       <DependentUpon>BookStoreDatabase.mdf</DependentUpon>
     </Content>
-    <Content Include="Content\AngularJS\AngularController.js" />
-    <Content Include="Content\AngularJS\AngularModule.js" />
-    <Content Include="Content\AngularJS\AngularService.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1038,8 +1036,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\ng-infinite-scroll.js" />
-    <Content Include="Scripts\ng-infinite-scroll.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -1090,7 +1086,7 @@
     <Content Include="Views\Authors\Details.cshtml" />
     <Content Include="Views\Authors\Edit.cshtml" />
     <Content Include="Views\Authors\Index.cshtml" />
-    <Content Include="Scripts\ng-infinite-scroll.min" />
+    <Content Include="Views\Books\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domein\Domein.csproj">
@@ -1105,8 +1101,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Audio\" />
     <Folder Include="Content\img\" />
     <Folder Include="Picture\" />
+    <Folder Include="Views\MyHandleErrorAttribute\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

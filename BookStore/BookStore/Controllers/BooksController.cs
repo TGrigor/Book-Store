@@ -51,18 +51,18 @@ namespace BookStore.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return PartialView("Error404", id.ToString());
             }
             Book book = await db.Books.FindAsync(id);
             if (book == null)
             {
-                return HttpNotFound();
+                return PartialView("Error404", id.ToString());
             }
             return View(book);
         }
 
-        [Authorize]
         // GET: Books/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName");
@@ -72,15 +72,13 @@ namespace BookStore.Controllers
         }
 
         // POST: Books/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "BookID,Title,AuthorID,CountryID,Price,Description,PagesCount,Picture")] Book book , HttpPostedFileBase image1)
         {
-            //nayel{
-            if (image1.ContentLength > 0)
+            
+            if (image1 != null)
             {
                 FileInfo file = new FileInfo(image1.FileName);
                 var fileName = Path.GetFileName(image1.FileName);
@@ -93,11 +91,13 @@ namespace BookStore.Controllers
                 image1.SaveAs(path);
                 return RedirectToAction("Index");
             }
-            /////}
-
-            ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "AuthorName", book.AuthorID);
-            ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName", book.CountryID);
-            return View(book);
+            else
+            {                
+                book.Picture = "noimg.gif";
+                db.Books.Add(book);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Books/Edit/5
@@ -106,12 +106,12 @@ namespace BookStore.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return PartialView("Error404", id.ToString());
             }
             Book book = await db.Books.FindAsync(id);
             if (book == null)
             {
-                return HttpNotFound();
+                return PartialView("Error404", id.ToString());
             }
             ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName", book.AuthorID);
             ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName", book.CountryID);
@@ -119,8 +119,6 @@ namespace BookStore.Controllers
         }
 
         // POST: Books/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]

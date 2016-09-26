@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Domein.Book>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }  
 <script src="~/Scripts/angular.min.js"></script>
@@ -11,20 +9,11 @@
 <br/>
 <div ng-app="AngularBookApp" ng-controller="AngularBookCntrl">
     <table>
-        <tr>
-            
+        <tr>            
             <td>
                 <span class="glyphicon glyphicon-search" aria-hidden="true" > Search</span>
                 <input type="text" ng-model="search[searchBy]"  class="srch" value="Book Name..."  autofocus/>
-            </td>
-            
-            @*<td>
-                <select ng-model="searchBy">
-                     <option value="$"></option>
-                     <option value="Title"> Title </option>
-                     <option value="Price"> Price </option>
-                </select>
-            </td>*@           
+            </td>                
         </tr>
         
     </table>
@@ -47,10 +36,10 @@
                     <th style="width:30%;">
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Title)
+                       Title
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Price)
+                        Price
                     </th>
                 </tr> 
                 
@@ -80,14 +69,12 @@
         {
             <div class="myCass-ForBookDiv" ng-repeat="b in BooksList | filter:search" >
 
-                <div infinite-scroll="loadMore()" infinite-scroll-distance="2" infinite-scroll-disabled="true">
-
+                <div>
                     <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}" class="port">
                         <img src="~/Picture/{{b.Picture}}" style="width:50%;" class="img-thumbnail" />
                         <p style="color:burlywood;">  {{b.Title}}   </p>
                         <span style="color:lawngreen;">{{b.Price + b.Tel_Code}} $ </span>
                     </a>
-
                 </div>
             </div>
         }
@@ -95,7 +82,7 @@
 </div>
 
 <script>
-    var app = angular.module("AngularBookApp", ['infinite-scroll']);
+    var app = angular.module("AngularBookApp", []);
 
         app.controller("AngularBookCntrl", function ($scope, AngularBookService) {
 
@@ -114,19 +101,9 @@
                 getData.then(function (emp) {
                 $scope.BooksList = emp.data;
             });
-        }
+        }        
         });
 
-        //app.controller('DemoController', function ($scope) {
-        //    $scope.images = [1, 2, 3, 4, 5, 6, 7, 8];
-
-        //    $scope.loadMore = function () {
-        //        var last = $scope.images[$scope.images.length - 1];
-        //        for (var i = 1; i <= 8; i++) {
-        //            $scope.images.push(last + i);
-        //        }
-        //    };
-    //});
 
     app.service("AngularBookService", function ($http) {
 
