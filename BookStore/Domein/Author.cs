@@ -30,7 +30,7 @@ namespace Domein
         [Required]
         [StringLength(60, MinimumLength = 3)]
         public string AuthorLastName { get; set; }
-
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> BirthDay { get; set; }
         public byte[] Picture { get; set; }
     

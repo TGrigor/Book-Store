@@ -13,8 +13,8 @@ namespace BookStore.Controllers
     {
          
         public async Task<ActionResult> Index()
-        {            
-            return View();
+        {
+            return  View();
         }
     }
 }

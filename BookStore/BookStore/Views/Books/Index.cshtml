@@ -43,7 +43,7 @@
                     </th>
                 </tr> 
                 
-                    <tr ng-repeat="b in BooksList | filter:search" >
+                    <tr ng-repeat="b in BooksList | filter:search | orderBy:'Title'" >
                         <td>
                             <img src="~/Picture/{{b.Picture}}" style="width:30%;" class="img-thumbnail" />
                         </td>
@@ -67,7 +67,7 @@
         }
         else
         {
-            <div class="myCass-ForBookDiv" ng-repeat="b in BooksList | filter:search" >
+            <div class="myCass-ForBookDiv" ng-repeat="b in BooksList | filter:search | orderBy:'Title'" >
 
                 <div>
                     <a data-ng-href="@Url.Action("Details", "Books")/{{b.BookID}}" class="port">
