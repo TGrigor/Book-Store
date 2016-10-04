@@ -19,7 +19,7 @@
         <div class="modal-dialog">
 
             <!-- Modal content-->            
-            <div class="container body-content" style="width: 661px; background-color: rgb(18, 19, 19);" >
+            <div class="container body-content" style="width: 661px; background-color: white;" >
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Add Author</h4>
@@ -131,8 +131,8 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @rows = "5", @id = "comment" } })
+            <div class="col-md-10"style="color:black;">
+                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @rows = "5", @id = "comment"  } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>

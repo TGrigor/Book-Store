@@ -39,19 +39,16 @@
         </dt>
 
         <dd>
-            <p style="float: left;">@Html.DisplayFor(model => model.Author.FullName)</p>
-            <div class="container" style="display: block;width: 100px; margin: 0; display: inline-block;">
+           <div class="container" style="margin-left: -15px;">
                 <!-- Trigger the modal with a button -->
-                <button type="button" style="background-color:rgb(26, 26, 26);"  data-toggle="modal" data-target="#myModal">
-                    Details 
-                </button>
+                <a data-toggle="modal" data-target="#myModal"><p>@Html.DisplayFor(model => model.Author.FullName)</p></a>
 
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog" style="background: rgba(0, 0, 0, 0.901961);">
                     <div class="modal-dialog">
 
                         <!-- Modal content-->
-                        <div class="container body-content" style="width: 661px; background-color: rgb(18, 19, 19);">
+                        <div class="container body-content" style="width: 661px; background-color: white;">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Author</h4>
@@ -66,26 +63,15 @@
 
                                             }
                                         </dd>                                       
-                                        <dt>
-                                            Name
-                                        </dt>
-
+                                       
                                         <dd>
                                             @Html.DisplayFor(model => model.Author.AuthorName)
                                         </dd>
-                                        
-                                        <dt>
-                                            Last Name
-                                        </dt>
-
+                                      
                                         <dd>
                                             @Html.DisplayFor(model => model.Author.AuthorLastName)
                                         </dd>
                                         </br>
-                                        <dt>
-                                            @Html.DisplayNameFor(model => model.Author.BirthDay)
-                                        </dt>
-
                                         <dd>
                                             @Html.DisplayFor(model => model.Author.BirthDay)
                                         </dd>
@@ -98,9 +84,9 @@
                     </div>
                 </div>
 
-            </div>
-            @*Nenc anel vor link y ta Author cntrolleri vra*@
+            </div>            
         </dd>
+
         <br />
         <dt>
             @*@Html.DisplayNameFor(model => model.Country.CountryName)*@

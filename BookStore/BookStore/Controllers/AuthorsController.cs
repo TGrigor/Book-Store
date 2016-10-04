@@ -110,16 +110,18 @@ namespace BookStore.Controllers
         // GET: Authors/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = await db.Authors.FindAsync(id);
-            if (author == null)
-            {
-                return HttpNotFound();
-            }
-            return View(author);
+           
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Author author = await db.Authors.FindAsync(id);
+                if (author == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(author);          
+
         }
 
         // POST: Authors/Delete/5
@@ -127,10 +129,23 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Author author = await db.Authors.FindAsync(id);
-            db.Authors.Remove(author);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+              var book = db.Books.ToList();
+              var AuthorTrue = false;
+              foreach (var item in book)
+              {
+                  if (item.AuthorID == id)
+                  {
+                      AuthorTrue = true;
+                  }
+              }
+              if (!AuthorTrue)
+              {
+                  Author author = await db.Authors.FindAsync(id);
+                  db.Authors.Remove(author);
+                  await db.SaveChangesAsync();
+                  return RedirectToAction("Index");
+              }
+              return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

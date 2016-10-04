@@ -1132,10 +1132,11 @@ img {
   max-width: 100%;
   height: auto;
   padding: 4px;
+  box-shadow: -13px 8px 22px #888888;
   line-height: 1.42857143;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  background-color: black;
+  border: 0.5px solid #fff;
+  border-radius: 10px;
   -webkit-transition: all .2s ease-in-out;
        -o-transition: all .2s ease-in-out;
           transition: all .2s ease-in-out;
@@ -3992,7 +3993,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a:hover,
 .nav > li > a:focus {
   text-decoration: none;
-  background-color: #eee;
+  background-color: #fff;
 }
 .nav > li.disabled > a {
   color: #777;
@@ -4613,7 +4614,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: red;
+  color: #eee;
   background-color: transparent;
 }
 .navbar-inverse .navbar-nav > .active > a,
