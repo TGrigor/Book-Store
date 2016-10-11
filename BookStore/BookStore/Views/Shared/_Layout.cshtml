@@ -26,6 +26,8 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                     <li>@Html.ActionLink("Author", "Index", "Authors")</li>
+                    <li>@Html.ActionLink("Create Attribute", "Index", "Attributes")</li>
+
                     }                               
                 </ul>
 

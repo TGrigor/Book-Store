@@ -78,6 +78,7 @@ namespace BookStore.Controllers
             {
                 ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName");
                 ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName");
+                ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name");
 
                 return View();
             }
@@ -142,6 +143,8 @@ namespace BookStore.Controllers
                 }
                 ViewBag.AuthorID = new SelectList(db.Authors, "AuthorID", "FullName", book.AuthorID);
                 ViewBag.CountryID = new SelectList(db.Countries, "CountryID", "CountryName", book.CountryID);
+                ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name");
+
                 return View(book);
             }
             catch

@@ -197,6 +197,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AttributesController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1087,6 +1088,10 @@
     <Content Include="Views\Authors\Edit.cshtml" />
     <Content Include="Views\Authors\Index.cshtml" />
     <Content Include="Views\Books\Error404.cshtml" />
+    <Content Include="Views\Attributes\Create.cshtml" />
+    <Content Include="Views\Attributes\Delete.cshtml" />
+    <Content Include="Views\Attributes\Edit.cshtml" />
+    <Content Include="Views\Attributes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domein\Domein.csproj">

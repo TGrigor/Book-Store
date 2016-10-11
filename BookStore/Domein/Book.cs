@@ -25,13 +25,11 @@ namespace Domein
         [Required]
         [StringLength(60, MinimumLength = 3)]
         public string Title { get; set; }
-
         public int AuthorID { get; set; }
         public int CountryID { get; set; }
         public Nullable<int> AttributeID { get; set; }
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
-
         public string Description { get; set; }
         public Nullable<int> PagesCount { get; set; }
         public string Picture { get; set; }

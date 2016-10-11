@@ -112,6 +112,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BookStoreDataBaseEntityModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="BookStoreDataBaseEntityModel.edmx.diagram">
       <DependentUpon>BookStoreDataBaseEntityModel.edmx</DependentUpon>
     </None>
