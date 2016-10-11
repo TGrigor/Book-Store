@@ -26,7 +26,7 @@ namespace Domein
         [Required]
         [StringLength(60, MinimumLength = 3)]
         public string AuthorName { get; set; }
-        
+
         [Required]
         [StringLength(60, MinimumLength = 3)]
         public string AuthorLastName { get; set; }
