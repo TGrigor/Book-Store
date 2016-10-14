@@ -6,45 +6,6 @@
 
 <h2>Edit</h2>
 
-<div class="container" style="float:right;">
-    
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Attributes</button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Attributes</h4>
-                </div>
-                <div class="modal-body">
-                <div>
-                      <div>
-                        @Html.DropDownList("AttributeID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.AttributeID, "", new { @class = "text-danger" })
-                    </div>                    
-                </div>
-                    <div >
-                        <br />                     
-                        <div>
-                            Value
-                            <input type="text" name="Value" value="" class="form-control" />
-                        </div>
-                    </div>
-                    
-                <div class="modal-footer">
-                    <input type="submit" value="Add" class="btn btn-default" data-dismiss="modal" />                    
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-</div>
 
 @using (Html.BeginForm("Edit", "Books", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

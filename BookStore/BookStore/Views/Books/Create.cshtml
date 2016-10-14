@@ -81,22 +81,6 @@
 
 </div>
 
-
-
-
-<div style="float:right; display:inline-block; margin-top:20px;">
-    @Html.LabelFor(model => model.AttributeID, "+Attribute", htmlAttributes: new { @class = "control-label col-md-2" })
-    <div>
-        @Html.DropDownList("AttributeID", null, htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.AttributeID, "", new { @class = "text-danger" })
-    </div>
-    @*<input type="submit" value="Add" class="btn btn-default" />*@
-
-</div>
-
-
-
-
 @using (Html.BeginForm("Create" , "Books", FormMethod.Post,new { enctype= "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
