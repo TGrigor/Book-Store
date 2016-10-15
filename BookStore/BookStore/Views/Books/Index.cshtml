@@ -23,11 +23,16 @@
         {
             <button type="button" class="btn btn-default" aria-label="Left Align">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                @Html.ActionLink(" Create New", "Create")
+                @Html.ActionLink(" Create New Book", "Create")
+            </button>            
+
+            <button type="button" class="btn btn-default" aria-label="Left Align" style="margin-left:20px;">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                @Html.ActionLink(" Add Attributes","Create","BookAddAttributes")
             </button>
             <button type="button" class="btn btn-default" aria-label="Left Align">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                @Html.ActionLink(" Add Attributes","Create","BookAddAttributes")
+                @Html.ActionLink(" Delete Attributes", "index", "BookAddAttributes")
             </button>
         }
     </p>

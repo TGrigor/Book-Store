@@ -4,45 +4,22 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Book and Attributes</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ValueTypeText)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ValueTypeDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ganre)
-        </th>
+    <tr>        
         <th>
             @Html.DisplayNameFor(model => model.Book.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ExtraAttribute.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ganre1.GanreName)
-        </th>
+            Attribute
+        </th>        
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ValueTypeText)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ValueTypeDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ganre)
-        </td>
+    <tr>       
         <td>
             @Html.DisplayFor(modelItem => item.Book.Title)
         </td>
@@ -50,11 +27,7 @@
             @Html.DisplayFor(modelItem => item.ExtraAttribute.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Ganre1.GanreName)
-        </td>
-        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.BookAddAttributesID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BookAddAttributesID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.BookAddAttributesID })
         </td>
     </tr>

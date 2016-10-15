@@ -46,9 +46,7 @@ namespace BookStore.Controllers
             return View();
         }
 
-        // POST: BookAddAttributes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: BookAddAttributes/Create        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "BookAddAttributesID,BookID,AttributeID,ValueTypeText,ValueTypeDate,Ganre,GanreID")] BookAddAttribute bookAddAttribute)
@@ -85,8 +83,6 @@ namespace BookStore.Controllers
         }
 
         // POST: BookAddAttributes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "BookAddAttributesID,BookID,AttributeID,ValueTypeText,ValueTypeDate,Ganre,GanreID")] BookAddAttribute bookAddAttribute)

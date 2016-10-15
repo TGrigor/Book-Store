@@ -16,27 +16,12 @@ namespace BookStore.Controllers
         private BookStoreDatabaseEntities db = new BookStoreDatabaseEntities();
 
         // GET: Attributes
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             var extraAttributes = db.ExtraAttributes.Include(e => e.AttributeType);
             return View(await extraAttributes.ToListAsync());
         }
-
-        // GET: Attributes/Details/5
-        //public async Task<ActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ExtraAttribute extraAttribute = await db.ExtraAttributes.FindAsync(id);
-        //    if (extraAttribute == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(extraAttribute);
-        //}
-
         // GET: Attributes/Create
         public ActionResult Create()
         {
@@ -44,10 +29,9 @@ namespace BookStore.Controllers
             return View();
         }
 
-        // POST: Attributes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Attributes/Create       
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "AttributeID,Name,AttributeTypeID")] ExtraAttribute extraAttribute)
         {
@@ -55,13 +39,15 @@ namespace BookStore.Controllers
             {
                 db.ExtraAttributes.Add(extraAttribute);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", "BookAddAttributes");
+
             }
 
             ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name", extraAttribute.AttributeTypeID);
-            return View(extraAttribute);
+            return RedirectToAction("Create","BookAddAttributes");
         }
 
+        [Authorize]
         // GET: Attributes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -79,9 +65,8 @@ namespace BookStore.Controllers
         }
 
         // POST: Attributes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "AttributeID,Name,AttributeTypeID")] ExtraAttribute extraAttribute)
         {
@@ -95,6 +80,7 @@ namespace BookStore.Controllers
             return View(extraAttribute);
         }
 
+        [Authorize]
         // GET: Attributes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
@@ -110,6 +96,7 @@ namespace BookStore.Controllers
             return View(extraAttribute);
         }
 
+        [Authorize]
         // POST: Attributes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

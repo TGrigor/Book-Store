@@ -51,17 +51,17 @@ namespace BookStore.Controllers
         {
             try
             { 
-            if (id == null)
-            {
-                return PartialView("Error404", id.ToString());
-            }
-            Book book = await db.Books.FindAsync(id);
-            book.Price += book.Country.Tel_Code;
-            if (book == null)
-            {
-                return PartialView("Error404", id.ToString());
-            }
-            return View(book);
+                 if (id == null)
+                 {
+                     return PartialView("Error404", id.ToString());
+                 }
+                 Book book = await db.Books.FindAsync(id);                 
+                 book.Price += book.Country.Tel_Code;
+                 if (book == null)
+                 {
+                     return PartialView("Error404", id.ToString());
+                 }
+                 return View(book);
             }
             catch
             {

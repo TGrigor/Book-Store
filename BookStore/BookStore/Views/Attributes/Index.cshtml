@@ -4,10 +4,11 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Attributes</h2>
+<h2>Extra Attributes</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create", "Create")
+
 </p>
 <table class="table">
     <tr>
@@ -15,7 +16,7 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AttributeType.Name)
+           Type
         </th>
         <th></th>
     </tr>
