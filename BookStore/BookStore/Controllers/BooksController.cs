@@ -98,6 +98,8 @@ namespace BookStore.Controllers
         {
             try
             {
+                var userName = User.Identity.Name;
+                
                 if (image1 != null)
                 {
                     FileInfo file = new FileInfo(image1.FileName);
@@ -105,7 +107,7 @@ namespace BookStore.Controllers
                     string GuIdName = Guid.NewGuid().ToString() + file.Extension;// stugel vor miayn picture tipi filer pahi
 
                     var path = Path.Combine(Server.MapPath("~/Picture/"), GuIdName);
-                    book.Picture = GuIdName;
+                    book.Picture = GuIdName;                    
                     db.Books.Add(book);
                     await db.SaveChangesAsync();
                     image1.SaveAs(path);
