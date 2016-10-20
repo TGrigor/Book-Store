@@ -120,6 +120,27 @@
             @Html.DisplayFor(model => model.BookAddAttributes)
         </dd>*@
 
+        <dt>
+            @if (Model.BookAddAttributes != null)
+            {
+                foreach (var item in Model.BookAddAttributes)
+                {
+                    @item.ExtraAttribute.Name
+                }
+            }
+        </dt>
+        <dd>
+            @{
+                var extAtt = Model.BookAddAttributes.FirstOrDefault();
+                if (extAtt != null)
+                {
+                    @extAtt.ValueTypeText
+
+                    @extAtt.ValueTypeDate
+                }
+            }
+        </dd>
+
     </dl>
 </div>
 <p>
