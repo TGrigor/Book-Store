@@ -1098,6 +1098,10 @@
     <Content Include="Views\BookAddAttributes\Details.cshtml" />
     <Content Include="Views\BookAddAttributes\Edit.cshtml" />
     <Content Include="Views\BookAddAttributes\Index.cshtml" />
+    <Content Include="Views\BookAddAttributes\Web.config" />
+    <Content Include="Views\BookAddAttributes\Error404.cshtml" />
+    <Content Include="Views\Authors\Error404.cshtml" />
+    <Content Include="Views\Attributes\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domein\Domein.csproj">

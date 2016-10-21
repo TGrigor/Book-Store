@@ -15,114 +15,184 @@ namespace BookStore.Controllers
     {
         private BookStoreDatabaseEntities db = new BookStoreDatabaseEntities();
 
+        [Authorize]
         // GET: BookAddAttributes
         public async Task<ActionResult> Index()
         {
-            var bookAddAttributes = db.BookAddAttributes.Include(b => b.Book).Include(b => b.ExtraAttribute).Include(b => b.Ganre1);
-            return View(await bookAddAttributes.ToListAsync());
+            try
+            {
+                var bookAddAttributes = db.BookAddAttributes.Include(b => b.Book).Include(b => b.ExtraAttribute).Include(b => b.Ganre1);
+                return View(await bookAddAttributes.ToListAsync());
+            }
+            catch 
+            {
+                return PartialView("Error404");
+            }
+
         }
 
+        [Authorize]
         // GET: BookAddAttributes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return PartialView("Error404");
+                }
+                BookAddAttribute bookAddAttribute = await db.BookAddAttributes.FindAsync(id);
+                if (bookAddAttribute == null)
+                {
+                    return PartialView("Error404");
+                }
+                return View(bookAddAttribute);
             }
-            BookAddAttribute bookAddAttribute = await db.BookAddAttributes.FindAsync(id);
-            if (bookAddAttribute == null)
+            catch
             {
-                return HttpNotFound();
+                return PartialView("Error404");
             }
-            return View(bookAddAttribute);
+
         }
 
+        [Authorize]
         // GET: BookAddAttributes/Create
         public ActionResult Create()
         {
-            ViewBag.BookID = new SelectList(db.Books, "BookID", "Title");
-            ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name");
-            ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName");
-            return View();
+            try
+            {
+                ViewBag.BookID = new SelectList(db.Books, "BookID", "Title");
+                ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name");
+                ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName");
+                return View();
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }
+
         }
 
         // POST: BookAddAttributes/Create        
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "BookAddAttributesID,BookID,AttributeID,ValueTypeText,ValueTypeDate,Ganre,GanreID")] BookAddAttribute bookAddAttribute)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.BookAddAttributes.Add(bookAddAttribute);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.BookAddAttributes.Add(bookAddAttribute);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.BookID = new SelectList(db.Books, "BookID", "Title", bookAddAttribute.BookID);
+                ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name", bookAddAttribute.AttributeID);
+                ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName", bookAddAttribute.GanreID);
+                return View(bookAddAttribute);
+            }
+            catch 
+            {
+                return PartialView("Error404");
             }
 
-            ViewBag.BookID = new SelectList(db.Books, "BookID", "Title", bookAddAttribute.BookID);
-            ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name", bookAddAttribute.AttributeID);
-            ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName", bookAddAttribute.GanreID);
-            return View(bookAddAttribute);
         }
 
+        [Authorize]
         // GET: BookAddAttributes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return PartialView("Error404");
+                }
+                BookAddAttribute bookAddAttribute = await db.BookAddAttributes.FindAsync(id);
+                if (bookAddAttribute == null)
+                {
+                    return PartialView("Error404");
+                }
+                ViewBag.BookID = new SelectList(db.Books, "BookID", "Title", bookAddAttribute.BookID);
+                ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name", bookAddAttribute.AttributeID);
+                ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName", bookAddAttribute.GanreID);
+                return View(bookAddAttribute);
             }
-            BookAddAttribute bookAddAttribute = await db.BookAddAttributes.FindAsync(id);
-            if (bookAddAttribute == null)
+            catch
             {
-                return HttpNotFound();
+                return PartialView("Error404");
             }
-            ViewBag.BookID = new SelectList(db.Books, "BookID", "Title", bookAddAttribute.BookID);
-            ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name", bookAddAttribute.AttributeID);
-            ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName", bookAddAttribute.GanreID);
-            return View(bookAddAttribute);
+
         }
 
         // POST: BookAddAttributes/Edit/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "BookAddAttributesID,BookID,AttributeID,ValueTypeText,ValueTypeDate,Ganre,GanreID")] BookAddAttribute bookAddAttribute)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(bookAddAttribute).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(bookAddAttribute).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.BookID = new SelectList(db.Books, "BookID", "Title", bookAddAttribute.BookID);
+                ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name", bookAddAttribute.AttributeID);
+                ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName", bookAddAttribute.GanreID);
+                return View(bookAddAttribute);
             }
-            ViewBag.BookID = new SelectList(db.Books, "BookID", "Title", bookAddAttribute.BookID);
-            ViewBag.AttributeID = new SelectList(db.ExtraAttributes, "AttributeID", "Name", bookAddAttribute.AttributeID);
-            ViewBag.GanreID = new SelectList(db.Ganres, "GanreID", "GanreName", bookAddAttribute.GanreID);
-            return View(bookAddAttribute);
+            catch
+            {
+                return PartialView("Error404");
+            }
+
         }
 
+        [Authorize]
         // GET: BookAddAttributes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            try
+            { 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return PartialView("Error404");
             }
             BookAddAttribute bookAddAttribute = await db.BookAddAttributes.FindAsync(id);
             if (bookAddAttribute == null)
             {
-                return HttpNotFound();
+                return PartialView("Error404");
             }
-            return View(bookAddAttribute);
+                return View(bookAddAttribute);
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }
         }
 
+        [Authorize]
         // POST: BookAddAttributes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            try
+            { 
             BookAddAttribute bookAddAttribute = await db.BookAddAttributes.FindAsync(id);
             db.BookAddAttributes.Remove(bookAddAttribute);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }
         }
 
         protected override void Dispose(bool disposing)

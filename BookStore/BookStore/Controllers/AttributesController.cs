@@ -19,14 +19,31 @@ namespace BookStore.Controllers
         [Authorize]
         public async Task<ActionResult> Index()
         {
+            try
+            { 
             var extraAttributes = db.ExtraAttributes.Include(e => e.AttributeType);
             return View(await extraAttributes.ToListAsync());
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }
         }
+
+        [Authorize]
         // GET: Attributes/Create
         public ActionResult Create()
         {
-            ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name");
-            return View();
+            try
+            {
+                ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name");
+                return View();
+            }
+            catch 
+            {
+                return PartialView("Error404");
+            }
+
         }
 
         // POST: Attributes/Create       
@@ -35,6 +52,8 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "AttributeID,Name,AttributeTypeID")] ExtraAttribute extraAttribute)
         {
+            try
+            { 
             if (ModelState.IsValid)
             {
                 db.ExtraAttributes.Add(extraAttribute);
@@ -45,23 +64,36 @@ namespace BookStore.Controllers
 
             ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name", extraAttribute.AttributeTypeID);
             return RedirectToAction("Create","BookAddAttributes");
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }
         }
 
         [Authorize]
+
         // GET: Attributes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            try
+            { 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return PartialView("Error404");
             }
-            ExtraAttribute extraAttribute = await db.ExtraAttributes.FindAsync(id);
+                ExtraAttribute extraAttribute = await db.ExtraAttributes.FindAsync(id);
             if (extraAttribute == null)
             {
-                return HttpNotFound();
+                    return PartialView("Error404");
             }
-            ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name", extraAttribute.AttributeTypeID);
+                ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name", extraAttribute.AttributeTypeID);
             return View(extraAttribute);
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }       
         }
 
         // POST: Attributes/Edit/5
@@ -70,30 +102,47 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "AttributeID,Name,AttributeTypeID")] ExtraAttribute extraAttribute)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(extraAttribute).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(extraAttribute).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name", extraAttribute.AttributeTypeID);
+                return View(extraAttribute);
             }
-            ViewBag.AttributeTypeID = new SelectList(db.AttributeTypes, "AttributeTypeID", "Name", extraAttribute.AttributeTypeID);
-            return View(extraAttribute);
+            catch
+            {
+                return PartialView("Error404");
+            }
         }
 
         [Authorize]
         // GET: Attributes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                return PartialView("Error404");
+                
+                }
+                ExtraAttribute extraAttribute = await db.ExtraAttributes.FindAsync(id);
+                if (extraAttribute == null)
+                {
+                return PartialView("Error404");
+                   
+                }
+                return View(extraAttribute);
             }
-            ExtraAttribute extraAttribute = await db.ExtraAttributes.FindAsync(id);
-            if (extraAttribute == null)
+            catch
             {
-                return HttpNotFound();
+                return PartialView("Error404");
             }
-            return View(extraAttribute);
+
         }
 
         [Authorize]
@@ -102,10 +151,17 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ExtraAttribute extraAttribute = await db.ExtraAttributes.FindAsync(id);
-            db.ExtraAttributes.Remove(extraAttribute);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                ExtraAttribute extraAttribute = await db.ExtraAttributes.FindAsync(id);
+                db.ExtraAttributes.Remove(extraAttribute);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }
         }
 
         protected override void Dispose(bool disposing)
