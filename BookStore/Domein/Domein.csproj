@@ -63,10 +63,16 @@
     <Compile Include="AspNetUserLogin.cs">
       <DependentUpon>BookStoreDataBaseEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AttributeType.cs">
+      <DependentUpon>BookStoreDataBaseEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Author.cs">
       <DependentUpon>BookStoreDataBaseEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Book.cs">
+      <DependentUpon>BookStoreDataBaseEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BookAddAttribute.cs">
       <DependentUpon>BookStoreDataBaseEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="BookStoreDataBaseEntityModel.Context.cs">
@@ -97,16 +103,23 @@
       <DependentUpon>BookStoreDataBaseEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserBook.cs">
+      <DependentUpon>BookStoreDataBaseEntityModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="BookStoreDataBaseEntityModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BookStoreDataBaseEntityModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="BookStoreDataBaseEntityModel.edmx.diagram">
       <DependentUpon>BookStoreDataBaseEntityModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BookStoreDataBaseEntityModel.Context.tt">
@@ -119,9 +132,6 @@
       <DependentUpon>BookStoreDataBaseEntityModel.edmx</DependentUpon>
       <LastGenOutput>BookStoreDataBaseEntityModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

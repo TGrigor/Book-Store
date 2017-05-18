@@ -105,7 +105,9 @@
         <dd>
             @Html.DisplayFor(model => model.PagesCount)
         </dd>
+
         <br/>
+
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -113,6 +115,31 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+
+            @if (Model.BookAddAttributes != null)
+            {
+                var Attribute = Model.BookAddAttributes.ToList();
+                int a = 0;
+
+                foreach (var item in Model.BookAddAttributes)
+                {
+                    <br/>
+                    <dt>@item.ExtraAttribute.Name</dt>
+                    if (Attribute != null)
+                    {
+                        
+                            <dd>
+                                @Attribute[a].ValueTypeText
+                            </dd>                       
+                        a++;
+                    }
+                }
+            }        
+            
+
+                
+
+        
 
     </dl>
 </div>

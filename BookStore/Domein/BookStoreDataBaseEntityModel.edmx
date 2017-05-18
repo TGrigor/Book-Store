@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BookStoreDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BookStoreDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -66,6 +66,13 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="AttributeType">
+          <Key>
+            <PropertyRef Name="AttributeTypeID" />
+          </Key>
+          <Property Name="AttributeTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Author">
           <Key>
             <PropertyRef Name="AuthorID" />
@@ -84,6 +91,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="AuthorID" Type="int" Nullable="false" />
           <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="AttributeID" Type="int" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="1" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="PagesCount" Type="int" />
@@ -91,17 +99,15 @@
         </EntityType>
         <EntityType Name="BookAddAttributes">
           <Key>
-            <PropertyRef Name="BookID" />
+            <PropertyRef Name="BookAddAttributesID" />
           </Key>
+          <Property Name="BookAddAttributesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
           <Property Name="AttributeID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="BookAndGanre">
-          <Key>
-            <PropertyRef Name="GanreID" />
-          </Key>
-          <Property Name="GanreID" Type="int" Nullable="false" />
-          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="ValueTypeText" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ValueTypeDate" Type="date" />
+          <Property Name="Ganre" Type="bit" />
+          <Property Name="GanreID" Type="int" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -116,10 +122,8 @@
             <PropertyRef Name="AttributeID" />
           </Key>
           <Property Name="AttributeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductionDate" Type="date" />
-          <Property Name="CopyOfBook" Type="int" />
-          <Property Name="AgeLimit" Type="int" />
-          <Property Name="Ganre" Type="bit" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AttributeTypeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Ganre">
           <Key>
@@ -128,28 +132,14 @@
           <Property Name="GanreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GanreName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BOOKSTORE\APP_DATA\BOOKSTOREDATABASE.MDF.dbo.UserBook' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="UserBook">
           <Key>
-            <PropertyRef Name="UserID" />
-            <PropertyRef Name="BookID" />
+            <PropertyRef Name="UserBookID" />
           </Key>
+          <Property Name="UserBookID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="BookID_BookAndGanre_BookID">
-          <End Role="Book" Type="Self.Book" Multiplicity="1" />
-          <End Role="BookAndGanre" Type="Self.BookAndGanre" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Book">
-              <PropertyRef Name="BookID" />
-            </Principal>
-            <Dependent Role="BookAndGanre">
-              <PropertyRef Name="BookID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Book_Author">
           <End Role="Author" Type="Self.Author" Multiplicity="1" />
           <End Role="Book" Type="Self.Book" Multiplicity="*" />
@@ -174,9 +164,21 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Book_ExtraAttributes">
+          <End Role="ExtraAttributes" Type="Self.ExtraAttributes" Multiplicity="0..1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExtraAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BookAddAttributes_Book">
           <End Role="Book" Type="Self.Book" Multiplicity="1" />
-          <End Role="BookAddAttributes" Type="Self.BookAddAttributes" Multiplicity="0..1" />
+          <End Role="BookAddAttributes" Type="Self.BookAddAttributes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Book">
               <PropertyRef Name="BookID" />
@@ -198,14 +200,14 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_BookAndGanre_Ganre">
-          <End Role="Ganre" Type="Self.Ganre" Multiplicity="1" />
-          <End Role="BookAndGanre" Type="Self.BookAndGanre" Multiplicity="0..1" />
+        <Association Name="FK_BookAddAttributes_Ganre">
+          <End Role="Ganre" Type="Self.Ganre" Multiplicity="0..1" />
+          <End Role="BookAddAttributes" Type="Self.BookAddAttributes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ganre">
               <PropertyRef Name="GanreID" />
             </Principal>
-            <Dependent Role="BookAndGanre">
+            <Dependent Role="BookAddAttributes">
               <PropertyRef Name="GanreID" />
             </Dependent>
           </ReferentialConstraint>
@@ -266,6 +268,18 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ExtraAttributes_AttributeType">
+          <End Role="AttributeType" Type="Self.AttributeType" Multiplicity="1" />
+          <End Role="ExtraAttributes" Type="Self.ExtraAttributes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttributeType">
+              <PropertyRef Name="AttributeTypeID" />
+            </Principal>
+            <Dependent Role="ExtraAttributes">
+              <PropertyRef Name="AttributeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserBook_Book">
           <End Role="Book" Type="Self.Book" Multiplicity="1" />
           <End Role="UserBook" Type="Self.UserBook" Multiplicity="*" />
@@ -297,29 +311,24 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttributeType" EntityType="Self.AttributeType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookAddAttributes" EntityType="Self.BookAddAttributes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BookAndGanre" EntityType="Self.BookAndGanre" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExtraAttributes" EntityType="Self.ExtraAttributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ganre" EntityType="Self.Ganre" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserBook" EntityType="Self.UserBook" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [UserBook].[UserID] AS [UserID], 
-    [UserBook].[BookID] AS [BookID]
-    FROM [dbo].[UserBook] AS [UserBook]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="BookID_BookAndGanre_BookID" Association="Self.BookID_BookAndGanre_BookID">
-            <End Role="Book" EntitySet="Book" />
-            <End Role="BookAndGanre" EntitySet="BookAndGanre" />
-          </AssociationSet>
+          <EntitySet Name="UserBook" EntityType="Self.UserBook" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Book_Author" Association="Self.FK_Book_Author">
             <End Role="Author" EntitySet="Author" />
             <End Role="Book" EntitySet="Book" />
           </AssociationSet>
           <AssociationSet Name="FK_Book_Country" Association="Self.FK_Book_Country">
             <End Role="Country" EntitySet="Country" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Book_ExtraAttributes" Association="Self.FK_Book_ExtraAttributes">
+            <End Role="ExtraAttributes" EntitySet="ExtraAttributes" />
             <End Role="Book" EntitySet="Book" />
           </AssociationSet>
           <AssociationSet Name="FK_BookAddAttributes_Book" Association="Self.FK_BookAddAttributes_Book">
@@ -330,9 +339,9 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             <End Role="ExtraAttributes" EntitySet="ExtraAttributes" />
             <End Role="BookAddAttributes" EntitySet="BookAddAttributes" />
           </AssociationSet>
-          <AssociationSet Name="FK_BookAndGanre_Ganre" Association="Self.FK_BookAndGanre_Ganre">
+          <AssociationSet Name="FK_BookAddAttributes_Ganre" Association="Self.FK_BookAddAttributes_Ganre">
             <End Role="Ganre" EntitySet="Ganre" />
-            <End Role="BookAndGanre" EntitySet="BookAndGanre" />
+            <End Role="BookAddAttributes" EntitySet="BookAddAttributes" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -350,6 +359,10 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_ExtraAttributes_AttributeType" Association="Self.FK_ExtraAttributes_AttributeType">
+            <End Role="AttributeType" EntitySet="AttributeType" />
+            <End Role="ExtraAttributes" EntitySet="ExtraAttributes" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserBook_Book" Association="Self.FK_UserBook_Book">
             <End Role="Book" EntitySet="Book" />
             <End Role="UserBook" EntitySet="UserBook" />
@@ -359,7 +372,8 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             <End Role="UserBook" EntitySet="UserBook" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -420,8 +434,16 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="UserBooks" Relationship="Self.FK_UserBook_User" FromRole="AspNetUsers" ToRole="UserBook" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <NavigationProperty Name="Books" Relationship="Self.UserBook" FromRole="AspNetUsers" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="AttributeType">
+          <Key>
+            <PropertyRef Name="AttributeTypeID" />
+          </Key>
+          <Property Name="AttributeTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ExtraAttributes" Relationship="Self.FK_ExtraAttributes_AttributeType" FromRole="AttributeType" ToRole="ExtraAttributes" />
         </EntityType>
         <EntityType Name="Author">
           <Key>
@@ -442,15 +464,31 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AuthorID" Type="Int32" Nullable="false" />
           <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="AttributeID" Type="Int32" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="1" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PagesCount" Type="Int32" />
-          <Property Name="Picture" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Author" Relationship="Self.FK_Book_Author" FromRole="Book" ToRole="Author" />
           <NavigationProperty Name="Country" Relationship="Self.FK_Book_Country" FromRole="Book" ToRole="Country" />
-          <NavigationProperty Name="ExtraAttribute" Relationship="Self.BookAddAttributes" FromRole="Book" ToRole="ExtraAttributes" />
-          <NavigationProperty Name="Ganres" Relationship="Self.BookAndGanre" FromRole="Book" ToRole="Ganre" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.UserBook" FromRole="Book" ToRole="AspNetUsers" />
+          <NavigationProperty Name="ExtraAttribute" Relationship="Self.FK_Book_ExtraAttributes" FromRole="Book" ToRole="ExtraAttributes" />
+          <NavigationProperty Name="BookAddAttributes" Relationship="Self.FK_BookAddAttributes_Book" FromRole="Book" ToRole="BookAddAttributes" />
+          <NavigationProperty Name="UserBooks" Relationship="Self.FK_UserBook_Book" FromRole="Book" ToRole="UserBook" />
+        </EntityType>
+        <EntityType Name="BookAddAttribute">
+          <Key>
+            <PropertyRef Name="BookAddAttributesID" />
+          </Key>
+          <Property Name="BookAddAttributesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookID" Type="Int32" Nullable="false" />
+          <Property Name="AttributeID" Type="Int32" Nullable="false" />
+          <Property Name="ValueTypeText" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ValueTypeDate" Type="DateTime" Precision="0" />
+          <Property Name="Ganre" Type="Boolean" />
+          <Property Name="GanreID" Type="Int32" />
+          <NavigationProperty Name="Book" Relationship="Self.FK_BookAddAttributes_Book" FromRole="BookAddAttributes" ToRole="Book" />
+          <NavigationProperty Name="ExtraAttribute" Relationship="Self.FK_BookAddAttributes_ExtraAttributes" FromRole="BookAddAttributes" ToRole="ExtraAttributes" />
+          <NavigationProperty Name="Ganre1" Relationship="Self.FK_BookAddAttributes_Ganre" FromRole="BookAddAttributes" ToRole="Ganre" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -466,11 +504,11 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             <PropertyRef Name="AttributeID" />
           </Key>
           <Property Name="AttributeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductionDate" Type="DateTime" Precision="0" />
-          <Property Name="CopyOfBook" Type="Int32" />
-          <Property Name="AgeLimit" Type="Int32" />
-          <Property Name="Ganre" Type="Boolean" />
-          <NavigationProperty Name="Books" Relationship="Self.BookAddAttributes" FromRole="ExtraAttributes" ToRole="Book" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AttributeTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AttributeType" Relationship="Self.FK_ExtraAttributes_AttributeType" FromRole="ExtraAttributes" ToRole="AttributeType" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_Book_ExtraAttributes" FromRole="ExtraAttributes" ToRole="Book" />
+          <NavigationProperty Name="BookAddAttributes" Relationship="Self.FK_BookAddAttributes_ExtraAttributes" FromRole="ExtraAttributes" ToRole="BookAddAttributes" />
         </EntityType>
         <EntityType Name="Ganre">
           <Key>
@@ -478,7 +516,17 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
           </Key>
           <Property Name="GanreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GanreName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Book" Relationship="Self.BookAndGanre" FromRole="Ganre" ToRole="Book" />
+          <NavigationProperty Name="BookAddAttributes" Relationship="Self.FK_BookAddAttributes_Ganre" FromRole="Ganre" ToRole="BookAddAttributes" />
+        </EntityType>
+        <EntityType Name="UserBook">
+          <Key>
+            <PropertyRef Name="UserBookID" />
+          </Key>
+          <Property Name="UserBookID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BookID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_UserBook_User" FromRole="UserBook" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Book" Relationship="Self.FK_UserBook_Book" FromRole="UserBook" ToRole="Book" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -508,6 +556,30 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserBook_User">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="UserBook" Type="Self.UserBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserBook">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExtraAttributes_AttributeType">
+          <End Role="AttributeType" Type="Self.AttributeType" Multiplicity="1" />
+          <End Role="ExtraAttributes" Type="Self.ExtraAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttributeType">
+              <PropertyRef Name="AttributeTypeID" />
+            </Principal>
+            <Dependent Role="ExtraAttributes">
+              <PropertyRef Name="AttributeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Book_Author">
           <End Role="Author" Type="Self.Author" Multiplicity="1" />
           <End Role="Book" Type="Self.Book" Multiplicity="*" />
@@ -532,20 +604,68 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Book_ExtraAttributes">
+          <End Role="ExtraAttributes" Type="Self.ExtraAttribute" Multiplicity="0..1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExtraAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookAddAttributes_Book">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="BookAddAttributes" Type="Self.BookAddAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BookAddAttributes">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserBook_Book">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="UserBook" Type="Self.UserBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="UserBook">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookAddAttributes_ExtraAttributes">
+          <End Role="ExtraAttributes" Type="Self.ExtraAttribute" Multiplicity="1" />
+          <End Role="BookAddAttributes" Type="Self.BookAddAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExtraAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Principal>
+            <Dependent Role="BookAddAttributes">
+              <PropertyRef Name="AttributeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookAddAttributes_Ganre">
+          <End Role="Ganre" Type="Self.Ganre" Multiplicity="0..1" />
+          <End Role="BookAddAttributes" Type="Self.BookAddAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ganre">
+              <PropertyRef Name="GanreID" />
+            </Principal>
+            <Dependent Role="BookAddAttributes">
+              <PropertyRef Name="GanreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
-        </Association>
-        <Association Name="BookAddAttributes">
-          <End Role="Book" Type="Self.Book" Multiplicity="*" />
-          <End Role="ExtraAttributes" Type="Self.ExtraAttribute" Multiplicity="0..1" />
-        </Association>
-        <Association Name="BookAndGanre">
-          <End Role="Book" Type="Self.Book" Multiplicity="0..1" />
-          <End Role="Ganre" Type="Self.Ganre" Multiplicity="*" />
-        </Association>
-        <Association Name="UserBook">
-          <End Role="Book" Type="Self.Book" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
         <EntityContainer Name="BookStoreDatabaseEntities" annotation:LazyLoadingEnabled="true">
@@ -554,11 +674,14 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="AttributeTypes" EntityType="Self.AttributeType" />
           <EntitySet Name="Authors" EntityType="Self.Author" />
           <EntitySet Name="Books" EntityType="Self.Book" />
+          <EntitySet Name="BookAddAttributes" EntityType="Self.BookAddAttribute" />
           <EntitySet Name="Countries" EntityType="Self.Country" />
           <EntitySet Name="ExtraAttributes" EntityType="Self.ExtraAttribute" />
           <EntitySet Name="Ganres" EntityType="Self.Ganre" />
+          <EntitySet Name="UserBooks" EntityType="Self.UserBook" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -566,6 +689,14 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserBook_User" Association="Self.FK_UserBook_User">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserBook" EntitySet="UserBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExtraAttributes_AttributeType" Association="Self.FK_ExtraAttributes_AttributeType">
+            <End Role="AttributeType" EntitySet="AttributeTypes" />
+            <End Role="ExtraAttributes" EntitySet="ExtraAttributes" />
           </AssociationSet>
           <AssociationSet Name="FK_Book_Author" Association="Self.FK_Book_Author">
             <End Role="Author" EntitySet="Authors" />
@@ -575,20 +706,28 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             <End Role="Country" EntitySet="Countries" />
             <End Role="Book" EntitySet="Books" />
           </AssociationSet>
+          <AssociationSet Name="FK_Book_ExtraAttributes" Association="Self.FK_Book_ExtraAttributes">
+            <End Role="ExtraAttributes" EntitySet="ExtraAttributes" />
+            <End Role="Book" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookAddAttributes_Book" Association="Self.FK_BookAddAttributes_Book">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="BookAddAttributes" EntitySet="BookAddAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserBook_Book" Association="Self.FK_UserBook_Book">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="UserBook" EntitySet="UserBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookAddAttributes_ExtraAttributes" Association="Self.FK_BookAddAttributes_ExtraAttributes">
+            <End Role="ExtraAttributes" EntitySet="ExtraAttributes" />
+            <End Role="BookAddAttributes" EntitySet="BookAddAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookAddAttributes_Ganre" Association="Self.FK_BookAddAttributes_Ganre">
+            <End Role="Ganre" EntitySet="Ganres" />
+            <End Role="BookAddAttributes" EntitySet="BookAddAttributes" />
+          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="BookAddAttributes" Association="Self.BookAddAttributes">
-            <End Role="Book" EntitySet="Books" />
-            <End Role="ExtraAttributes" EntitySet="ExtraAttributes" />
-          </AssociationSet>
-          <AssociationSet Name="BookAndGanre" Association="Self.BookAndGanre">
-            <End Role="Book" EntitySet="Books" />
-            <End Role="Ganre" EntitySet="Ganres" />
-          </AssociationSet>
-          <AssociationSet Name="UserBook" Association="Self.UserBook">
-            <End Role="Book" EntitySet="Books" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
         </EntityContainer>
@@ -653,6 +792,14 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AttributeTypes">
+            <EntityTypeMapping TypeName="BookStoreDatabaseModel.AttributeType">
+              <MappingFragment StoreEntitySet="AttributeType">
+                <ScalarProperty Name="AttributeTypeID" ColumnName="AttributeTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Authors">
             <EntityTypeMapping TypeName="BookStoreDatabaseModel.Author">
               <MappingFragment StoreEntitySet="Author">
@@ -671,10 +818,24 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="PagesCount" ColumnName="PagesCount" />
                 <ScalarProperty Name="Picture" ColumnName="Picture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookAddAttributes">
+            <EntityTypeMapping TypeName="BookStoreDatabaseModel.BookAddAttribute">
+              <MappingFragment StoreEntitySet="BookAddAttributes">
+                <ScalarProperty Name="BookAddAttributesID" ColumnName="BookAddAttributesID" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
+                <ScalarProperty Name="ValueTypeText" ColumnName="ValueTypeText" />
+                <ScalarProperty Name="ValueTypeDate" ColumnName="ValueTypeDate" />
+                <ScalarProperty Name="Ganre" ColumnName="Ganre" />
+                <ScalarProperty Name="GanreID" ColumnName="GanreID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -691,10 +852,8 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
             <EntityTypeMapping TypeName="BookStoreDatabaseModel.ExtraAttribute">
               <MappingFragment StoreEntitySet="ExtraAttributes">
                 <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
-                <ScalarProperty Name="ProductionDate" ColumnName="ProductionDate" />
-                <ScalarProperty Name="CopyOfBook" ColumnName="CopyOfBook" />
-                <ScalarProperty Name="AgeLimit" ColumnName="AgeLimit" />
-                <ScalarProperty Name="Ganre" ColumnName="Ganre" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AttributeTypeID" ColumnName="AttributeTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -706,36 +865,21 @@ warning 6002: The table/view 'C:\USERS\GTEME\SOURCE\REPOS\VOLO-TASK\BOOKSTORE\BO
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserBooks">
+            <EntityTypeMapping TypeName="BookStoreDatabaseModel.UserBook">
+              <MappingFragment StoreEntitySet="UserBook">
+                <ScalarProperty Name="UserBookID" ColumnName="UserBookID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="BookStoreDatabaseModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
             <EndProperty Name="AspNetUsers">
               <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="BookAddAttributes" TypeName="BookStoreDatabaseModel.BookAddAttributes" StoreEntitySet="BookAddAttributes">
-            <EndProperty Name="Book">
-              <ScalarProperty Name="BookID" ColumnName="BookID" />
-            </EndProperty>
-            <EndProperty Name="ExtraAttributes">
-              <ScalarProperty Name="AttributeID" ColumnName="AttributeID" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="BookAndGanre" TypeName="BookStoreDatabaseModel.BookAndGanre" StoreEntitySet="BookAndGanre">
-            <EndProperty Name="Book">
-              <ScalarProperty Name="BookID" ColumnName="BookID" />
-            </EndProperty>
-            <EndProperty Name="Ganre">
-              <ScalarProperty Name="GanreID" ColumnName="GanreID" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="UserBook" TypeName="BookStoreDatabaseModel.UserBook" StoreEntitySet="UserBook">
-            <EndProperty Name="Book">
-              <ScalarProperty Name="BookID" ColumnName="BookID" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

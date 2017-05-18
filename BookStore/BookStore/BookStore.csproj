@@ -197,7 +197,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AttributesController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
+    <Compile Include="Controllers\BookAddAttributesController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1087,6 +1089,19 @@
     <Content Include="Views\Authors\Edit.cshtml" />
     <Content Include="Views\Authors\Index.cshtml" />
     <Content Include="Views\Books\Error404.cshtml" />
+    <Content Include="Views\Attributes\Create.cshtml" />
+    <Content Include="Views\Attributes\Delete.cshtml" />
+    <Content Include="Views\Attributes\Edit.cshtml" />
+    <Content Include="Views\Attributes\Index.cshtml" />
+    <Content Include="Views\BookAddAttributes\Create.cshtml" />
+    <Content Include="Views\BookAddAttributes\Delete.cshtml" />
+    <Content Include="Views\BookAddAttributes\Details.cshtml" />
+    <Content Include="Views\BookAddAttributes\Edit.cshtml" />
+    <Content Include="Views\BookAddAttributes\Index.cshtml" />
+    <Content Include="Views\BookAddAttributes\Web.config" />
+    <Content Include="Views\BookAddAttributes\Error404.cshtml" />
+    <Content Include="Views\Authors\Error404.cshtml" />
+    <Content Include="Views\Attributes\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domein\Domein.csproj">

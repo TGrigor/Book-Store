@@ -30,10 +30,13 @@ namespace Domein
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<AttributeType> AttributeTypes { get; set; }
         public virtual DbSet<Author> Authors { get; set; }
         public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<BookAddAttribute> BookAddAttributes { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<ExtraAttribute> ExtraAttributes { get; set; }
         public virtual DbSet<Ganre> Ganres { get; set; }
+        public virtual DbSet<UserBook> UserBooks { get; set; }
     }
 }

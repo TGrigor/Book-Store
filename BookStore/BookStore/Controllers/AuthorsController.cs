@@ -24,16 +24,24 @@ namespace BookStore.Controllers
         // GET: Authors/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return PartialView("Error404", id.ToString());
+                }
+                Author author = await db.Authors.FindAsync(id);
+                if (author == null)
+                {
+                    return PartialView("Error404", id.ToString());
+                }
+                return View(author);
             }
-            Author author = await db.Authors.FindAsync(id);
-            if (author == null)
+            catch
             {
-                return HttpNotFound();
+                return PartialView("Error404", id.ToString());
             }
-            return View(author);
+
         }
 
         // GET: Authors/Create
@@ -47,35 +55,49 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "AuthorID,AuthorName,AuthorLastName,BirthDay,Picture")] Author author, HttpPostedFileBase image1)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-                if (image1 != null)
+                if (ModelState.IsValid)
                 {
-                    author.Picture = new byte[image1.ContentLength];
-                    image1.InputStream.Read(author.Picture, 0, image1.ContentLength);
+                    if (image1 != null)
+                    {
+                        author.Picture = new byte[image1.ContentLength];
+                        image1.InputStream.Read(author.Picture, 0, image1.ContentLength);
+                    }
+                    db.Authors.Add(author);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Create", "Books");
                 }
-                db.Authors.Add(author);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Create","Books");
-            }
 
-            return View(author);
+                return View(author);
+            }
+            catch
+            {
+                return PartialView("Error404");
+            }
         }
 
         // GET: Authors/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return PartialView("Error404", id.ToString());
+                }
+                Author author = await db.Authors.FindAsync(id);
+                if (author == null)
+                {
+                    return PartialView("Error404", id.ToString());
+                }
+                return View(author);
             }
-            Author author = await db.Authors.FindAsync(id);
-            if (author == null)
+            catch 
             {
-                return HttpNotFound();
+                    return PartialView("Error404", id.ToString());
             }
-            return View(author);
+
         }
 
         // POST: Authors/Edit/5
@@ -110,17 +132,25 @@ namespace BookStore.Controllers
         // GET: Authors/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-           
+            try
+            {
                 if (id == null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return PartialView("Error404", id.ToString());
                 }
                 Author author = await db.Authors.FindAsync(id);
                 if (author == null)
                 {
-                    return HttpNotFound();
+                    return PartialView("Error404", id.ToString());
+
                 }
-                return View(author);          
+                return View(author);
+
+            }
+            catch
+            {
+                return PartialView("Error404", id.ToString());
+            }
 
         }
 
@@ -129,23 +159,31 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-              var book = db.Books.ToList();
-              var AuthorTrue = false;
-              foreach (var item in book)
-              {
-                  if (item.AuthorID == id)
-                  {
-                      AuthorTrue = true;
-                  }
-              }
-              if (!AuthorTrue)
-              {
-                  Author author = await db.Authors.FindAsync(id);
-                  db.Authors.Remove(author);
-                  await db.SaveChangesAsync();
-                  return RedirectToAction("Index");
-              }
-              return RedirectToAction("Index");
+            try
+            {
+                var book = db.Books.ToList();
+                var AuthorTrue = false;
+                foreach (var item in book)
+                {
+                    if (item.AuthorID == id)
+                    {
+                        AuthorTrue = true;
+                    }
+                }
+                if (!AuthorTrue)
+                {
+                    Author author = await db.Authors.FindAsync(id);
+                    db.Authors.Remove(author);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return PartialView("Error404", id.ToString());
+            }
+
         }
 
         protected override void Dispose(bool disposing)

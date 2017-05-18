@@ -1,0 +1,102 @@
+﻿@model Domein.BookAddAttribute
+
+@{
+    ViewBag.Title = "Attribute";
+}
+
+<h2>Add Attribute</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookID, "Book List", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("BookID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BookID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AttributeID, "Attribute List", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div style="display:inline-block; width: 202px;">@Html.DropDownList("AttributeID", null, "Select attributes", htmlAttributes: new { @class = "form-control", @id = "dd1" })</div>
+                @Html.ValidationMessageFor(model => model.AttributeID, "", new { @class = "text-danger" })
+                <a>
+                    <button type="button" class="btn btn-default" aria-label="Left Align" style="width: 72px;">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        @Html.ActionLink(" Add", "Create", "Attributes")
+                    </button>
+                </a>
+            </div>           
+    
+        </div>
+       
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValueTypeText, " ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValueTypeText, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValueTypeText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.ValueTypeDate," " , htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValueTypeDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValueTypeDate, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+        @*Ganre*@
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Ganre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Ganre)
+                    @Html.ValidationMessageFor(model => model.Ganre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GanreID, "Ganre", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("GanreID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GanreID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.1.0.min.js"></script>
+<script type="text/javascript">
+        $(function () {
+            $('#dd1').change(function () {
+                var value = $(this).val();
+                if (value == '0') {
+                    $('#attText').hide();
+                } else {
+                    $('#attText').show();
+                }
+            });
+        });
+</script>

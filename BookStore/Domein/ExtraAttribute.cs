@@ -18,15 +18,17 @@ namespace Domein
         public ExtraAttribute()
         {
             this.Books = new HashSet<Book>();
+            this.BookAddAttributes = new HashSet<BookAddAttribute>();
         }
     
         public int AttributeID { get; set; }
-        public Nullable<System.DateTime> ProductionDate { get; set; }
-        public Nullable<int> CopyOfBook { get; set; }
-        public Nullable<int> AgeLimit { get; set; }
-        public Nullable<bool> Ganre { get; set; }
+        public string Name { get; set; }
+        public int AttributeTypeID { get; set; }
     
+        public virtual AttributeType AttributeType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Book> Books { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BookAddAttribute> BookAddAttributes { get; set; }
     }
 }

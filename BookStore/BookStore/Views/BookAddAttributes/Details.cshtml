@@ -1,0 +1,66 @@
+﻿@model Domein.BookAddAttribute
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BookAddAttribute</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ValueTypeText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValueTypeText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValueTypeDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValueTypeDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ganre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ganre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraAttribute.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExtraAttribute.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ganre1.GanreName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ganre1.GanreName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BookAddAttributesID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

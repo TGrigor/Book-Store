@@ -14,9 +14,16 @@ namespace Domein
     
     public partial class Ganre
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Ganre()
+        {
+            this.BookAddAttributes = new HashSet<BookAddAttribute>();
+        }
+    
         public int GanreID { get; set; }
         public string GanreName { get; set; }
     
-        public virtual Book Book { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BookAddAttribute> BookAddAttributes { get; set; }
     }
 }
