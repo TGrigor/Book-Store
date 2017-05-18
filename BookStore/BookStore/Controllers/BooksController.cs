@@ -98,28 +98,35 @@ namespace BookStore.Controllers
         {
             try
             {
+                UserBook userBookAssociation = new UserBook();
                 var userName = User.Identity.Name;
-                
+                var query = db.AspNetUsers.Where(a => a.UserName == userName).FirstOrDefault();
+
                 if (image1 != null)
                 {
                     FileInfo file = new FileInfo(image1.FileName);
                     var fileName = Path.GetFileName(image1.FileName);
                     string GuIdName = Guid.NewGuid().ToString() + file.Extension;// stugel vor miayn picture tipi filer pahi
-
                     var path = Path.Combine(Server.MapPath("~/Picture/"), GuIdName);
                     book.Picture = GuIdName;                    
-                    db.Books.Add(book);
-                    await db.SaveChangesAsync();
                     image1.SaveAs(path);
-                    return RedirectToAction("Index");
                 }
                 else
                 {
                     book.Picture = "noimg.gif";
-                    db.Books.Add(book);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
                 }
+                db.Books.Add(book);
+                await db.SaveChangesAsync();
+                book = db.Books.Where(b => b.Title == book.Title).FirstOrDefault();
+                if (query.Id != null)
+                {
+                    userBookAssociation.UserID = query.Id;
+                    userBookAssociation.BookID = book.BookID;
+                    db.UserBooks.Add(userBookAssociation);
+                    await db.SaveChangesAsync();
+                }
+
+                return RedirectToAction("Index");
             }
             catch 
             {
@@ -250,6 +257,8 @@ namespace BookStore.Controllers
         {
             try
             {
+                UserBook userbook = db.UserBooks.Where(ub => ub.BookID == id).FirstOrDefault();
+                db.UserBooks.Remove(userbook);
                 Book book = await db.Books.FindAsync(id);
                 db.Books.Remove(book);
                 await db.SaveChangesAsync();
